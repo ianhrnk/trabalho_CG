@@ -1,6 +1,3 @@
-// Compile command
-// g++ Main.cpp Shader.cpp -o main -lGLEW -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl
-
 #define GLFW_INCLUDE_NONE
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -8,9 +5,13 @@
 #include <iostream>
 
 #include "Shader.h"
+#include "Renderer.h"
+#include "Model.h"
+
+void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 
 int main(void)
-{ 
+{
   GLFWwindow* window;
 
   // Initialize the library
@@ -21,7 +22,7 @@ int main(void)
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
   // Create a windowed mode window and its OpenGL context
-  window = glfwCreateWindow(640, 480, "Cube", NULL, NULL);
+  window = glfwCreateWindow(640, 640, "Trabalho", NULL, NULL);
   if (!window)
   {
     glfwTerminate();
@@ -30,109 +31,53 @@ int main(void)
 
   // Make the window's context current
   glfwMakeContextCurrent(window);
+  glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
+  //=== Incluir funções de callback aqui ===//
+
+  // Sets the swap interval
+  //glfwSwapInterval(3);
 
   // Initialize the extension entry points
   if(glewInit() != GLEW_OK)
     std::cout << "Error!" << std::endl;
 
   /* Init section */
-  float vertices[] = {
-    // front
-    -0.5, -0.5,  0.5,
-     0.5, -0.5,  0.5,
-     0.5,  0.5,  0.5,
-    -0.5,  0.5,  0.5,
-    // back
-    -0.5, -0.5, -0.5,
-     0.5, -0.5, -0.5,
-     0.5,  0.5, -0.5,
-    -0.5,  0.5, -0.5
-  };
-
-  unsigned short indices[] = {
-		// front
-		0, 1, 2,
-		2, 3, 0,
-		// right
-		1, 5, 6,
-		6, 2, 1,
-		// back
-		7, 6, 5,
-		5, 4, 7,
-		// left
-		4, 0, 3,
-		3, 7, 4,
-		// bottom
-		4, 5, 1,
-		1, 0, 4,
-		// top
-		3, 2, 6,
-		6, 7, 3
-	};
+  Model model("torus", "teste");
 
   glm::mat4 identity_matrix(1.0f);
   glm::mat4 model_matrix(1.0f);
-  model_matrix = glm::rotate(model_matrix, 0.78f, glm::vec3(1.0f, 0.0f, 0.0f));
-  model_matrix = glm::rotate(model_matrix, 0.78f, glm::vec3(0.0f, 0.0f, 1.0f));
-
-  unsigned int VAO;
-  glGenVertexArrays(1, &VAO);
-  glBindVertexArray(VAO);
-  
-  unsigned int VBO;
-  glGenBuffers(1, &VBO);
-  glBindBuffer(GL_ARRAY_BUFFER, VBO);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-
-  unsigned int IBO;
-  glGenBuffers(1, &IBO);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+  model_matrix = glm::rotate(model_matrix, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+  glm::mat4 projection_matrix = glm::ortho(-4.f, 4.f, -4.f, 4.f, 4.f, -4.f);
 
   // Shader
-  Shader shader("../shader/main.vp", "../shader/main.fp");
+  Shader shader("shader/main.vs", "shader/main.fs");
   shader.Bind();
 
   // Init matrices (Uniforms)
   shader.SetUniformMatrix4fv("model", model_matrix);
   shader.SetUniformMatrix4fv("view", identity_matrix);
-  shader.SetUniformMatrix4fv("projection", identity_matrix);  
+  shader.SetUniformMatrix4fv("projection", projection_matrix);
 
   shader.Unbind();
-  glBindVertexArray(0);
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-  
+
+  Renderer::EnableDepthTest();
 
   /* Loop until the user closes the window - Render section */
   while (!glfwWindowShouldClose(window))
   {
-    // Clear the color buffer
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    // Enable depth test
-    glEnable(GL_DEPTH_TEST);
+    Renderer::Clear();
 
     shader.Bind();
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+    model.Bind();
 
-    shader.SetUniform4f("u_Color", 1.0f, 0.67f, 0.67f, 1.0f); //Red
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, nullptr);
-    shader.SetUniform4f("u_Color", 1.0f, 0.83f, 0.64f, 1.0f); //Orange
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (const void*)12);
-    shader.SetUniform4f("u_Color", 0.99f, 1.0f, 0.71f, 1.0f); //Yellow
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (const void*)24);
-    shader.SetUniform4f("u_Color", 0.79f, 1.0f, 0.74f, 1.0f);  //Green
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (const void*)36);
-    shader.SetUniform4f("u_Color", 0.60f, 0.96f, 1.0f, 1.0f);  //Blue
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (const void*)48);
-    shader.SetUniform4f("u_Color", 1.0f, 0.77, 1.0f, 1.0f); //Pink
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (const void*)48);
+    // Para ficar rotacionando o cubo
+    model_matrix = glm::rotate(model_matrix, glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 1.0f));
+    shader.SetUniformMatrix4fv("model", model_matrix);
 
+    shader.SetUniform4f("color", 1.0f, 1.0f, 1.0f, 1.0f); //White
+    glDrawElements(GL_TRIANGLES, model.GetNumIndices(), GL_UNSIGNED_INT, nullptr);
+
+    model.Unbind();
     shader.Unbind();
 
     // Swap front and back buffers
@@ -142,6 +87,12 @@ int main(void)
     glfwPollEvents();
   }
 
+  //render.Finalize();
   glfwTerminate();
   return 0;
+}
+
+void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
+{
+  glViewport(0, 0, width, height);
 }

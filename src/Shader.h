@@ -15,20 +15,23 @@ class Shader
  private:
   unsigned int id;
 
-  std::string LoadShaderSource(const std::string &fileName);
-  unsigned int LoadAndCompileShader(GLenum type, const std::string &fileName);
-  void LinkShaderProgram(unsigned int vertexShader, unsigned int fragmentShader);
+  std::string LoadShaderSource(const std::string &filename);
+  unsigned int LoadAndCompileShader(GLenum type, const std::string &filename);
+  void LinkShaderProgram(unsigned int vertex_shader, unsigned int fragment_shader);
 
   int GetUniformLocation(const std::string& name);
 
  public:
-  Shader(const std::string &vertexFile, const std::string &fragmentFile);
+  Shader(const std::string &vertex_file, const std::string &fragment_file);
   ~Shader();
   void Bind();
   void Unbind();
 
   // Uniform functions
-  void SetUniform4f(const std::string& name, float v0, float v1, 
+  void SetUniform1f(const std::string& name, float v0);
+  void SetUniform3f(const std::string& name, float v0, float v1,
+                    float v2);
+  void SetUniform4f(const std::string& name, float v0, float v1,
                     float v2, float v3);
   void SetUniformMatrix4fv(const std::string& name, glm::mat4 value);
 };
