@@ -12,7 +12,7 @@ class Renderer {
   Shader *shader = nullptr;
 
  public:
-  Renderer(Shader *shader, Scene *scene); //Scene scene, Camera camera
+  Renderer(Shader *shader, Scene *scene); //Adicionar camera
   ~Renderer();
   void Draw();
   //void Finalize();

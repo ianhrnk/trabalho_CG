@@ -120,3 +120,15 @@ const std::string Model::GetName()
 {
   return name;
 }
+
+const glm::vec3 Model::GetColor()
+{
+  return color;
+}
+
+void Model::SetColor(float v0, float v1, float v2)
+{
+  color.x = v0;
+  color.y = v1;
+  color.z = v2;
+}

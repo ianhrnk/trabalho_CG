@@ -14,7 +14,7 @@ class Scene {
   ~Scene();
   void AddModel(const std::string &shape, const std::string &name);
   std::vector<Model*> GetModels();
-  bool SearchModel(const std::string &name);
+  Model* SearchModel(const std::string &name);
 };
 
 #endif

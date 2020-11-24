@@ -85,6 +85,17 @@ void Shader::Bind() { glUseProgram(this->id); }
 
 void Shader::Unbind() { glUseProgram(0); }
 
+void Shader::InitMatrices()
+{
+  Bind();
+  glm::mat4 identity_matrix(1.0f);
+  glm::mat4 projection_matrix = glm::ortho(-2.f, 2.f, -2.f, 2.f, 2.f, -2.f);
+  SetUniformMatrix4fv("model", identity_matrix);
+  SetUniformMatrix4fv("view", identity_matrix);
+  SetUniformMatrix4fv("projection", projection_matrix);
+  Unbind();
+}
+
 int Shader::GetUniformLocation(const std::string& name) {
   int location = glGetUniformLocation(this->id, name.c_str());
   if (location == -1)
@@ -100,6 +111,11 @@ void Shader::SetUniform1f(const std::string& name, float v0)
 void Shader::SetUniform3f(const std::string& name, float v0, float v1, float v2)
 {
   glUniform3f(GetUniformLocation(name), v0, v1, v2);
+}
+
+void Shader::SetUniform3f(const std::string&name, glm::vec3 vec)
+{
+  glUniform3f(GetUniformLocation(name), vec.x, vec.y, vec.z);
 }
 
 void Shader::SetUniform4f(const std::string& name, float v0, float v1,

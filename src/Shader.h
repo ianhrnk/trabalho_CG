@@ -26,11 +26,13 @@ class Shader
   ~Shader();
   void Bind();
   void Unbind();
+  void InitMatrices();
 
   // Uniform functions
   void SetUniform1f(const std::string& name, float v0);
   void SetUniform3f(const std::string& name, float v0, float v1,
                     float v2);
+  void SetUniform3f(const std::string&name, glm::vec3 vec);
   void SetUniform4f(const std::string& name, float v0, float v1,
                     float v2, float v3);
   void SetUniformMatrix4fv(const std::string& name, glm::mat4 value);

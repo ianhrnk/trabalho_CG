@@ -7,6 +7,7 @@
 #include <map>
 #include <fstream>
 #include <limits>
+#include <glm/glm.hpp>
 
 #include "VertexArray.h"
 #include "VertexBuffer.h"
@@ -15,6 +16,7 @@
 class Model {
  private:
   std::string name;
+  glm::vec3 color = glm::vec3(1.0f);
   VertexArray *vao = nullptr;
   VertexBuffer *vbo = nullptr;
   ElementBuffer *ebo = nullptr;
@@ -29,8 +31,12 @@ class Model {
   ~Model();
   void Bind();
   void Unbind();
+
   const unsigned int GetNumIndices();
   const std::string GetName();
+  const glm::vec3 GetColor();
+
+  void SetColor(float v0, float v1, float v2);
 };
 
 #endif

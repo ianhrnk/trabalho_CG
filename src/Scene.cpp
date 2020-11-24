@@ -17,10 +17,10 @@ std::vector<Model*> Scene::GetModels()
   return models;
 }
 
-bool Scene::SearchModel(const std::string &name)
+Model* Scene::SearchModel(const std::string &name)
 {
   for (auto it = models.begin(); it != models.end(); it++)
     if (((*it)->GetName()).compare(name) == 0)
-      return true;
-  return false;
+      return *it;
+  return nullptr;
 }

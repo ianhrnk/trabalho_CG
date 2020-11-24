@@ -1,6 +1,6 @@
 #include "Renderer.h"
 
-Renderer::Renderer(Shader *shader, Scene *scene) //Scene scene, Camera camera
+Renderer::Renderer(Shader *shader, Scene *scene)
 {
   this->scene = scene;
   this->shader = shader;
@@ -22,6 +22,7 @@ void Renderer::Draw()
   for (auto it = models.begin(); it != models.end(); it++)
   {
     (*it)->Bind();
+    shader->SetUniform3f("color", (*it)->GetColor());
     glDrawElements(GL_TRIANGLES, (*it)->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
     (*it)->Unbind();
   }
