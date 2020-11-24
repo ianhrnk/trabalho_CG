@@ -58,8 +58,14 @@ int main(void)
         std::string shape, name;
         ss >> shape >> name;
 
-        if (scene.SearchModel(name) == nullptr)
-          scene.AddModel(shape, name);
+        scene.AddModel(shape, name);
+      }
+      if (comando.compare("remove_shape") == 0)
+      {
+        std::string name;
+        ss >> name;
+
+        scene.RemoveModel(name);
       }
       else if (comando.compare("color") == 0)
       {
@@ -67,9 +73,7 @@ int main(void)
         float v0, v1, v2;
         ss >> name >> v0 >> v1 >> v2;
 
-        Model* model = scene.SearchModel(name);
-        if (model != nullptr)
-          model->SetColor(v0, v1, v2);
+        scene.ChangeModelColor(name, v0, v1, v2);
       }
       else if (comando.compare("quit") == 0)
       {
