@@ -1,5 +1,7 @@
 #include "Model.h"
 
+unsigned int Model::wire = GL_TRIANGLES;
+
 Model::Model(const std::string &shape, const std::string &name)
 {
   this->name = name;
@@ -126,9 +128,19 @@ const glm::vec3 Model::GetColor()
   return color;
 }
 
+unsigned int Model::GetWire()
+{
+  return Model::wire;
+}
+
 void Model::SetColor(float v0, float v1, float v2)
 {
   color.x = v0;
   color.y = v1;
   color.z = v2;
+}
+
+void Model::SetWire(unsigned int mode)
+{
+  Model::wire = mode;
 }

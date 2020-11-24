@@ -17,6 +17,7 @@ class Scene {
   std::vector<Model*>::iterator SearchModel(const std::string &name);
   void RemoveModel(const std::string &name);
   void ChangeModelColor(const std::string &name, float v0, float v1, float v2);
+  void SetModelWire(bool on_off);
 };
 
 #endif

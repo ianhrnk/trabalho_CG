@@ -17,13 +17,12 @@ void Renderer::Draw()
   glEnable(GL_DEPTH_TEST);
 
   shader->Bind();
-
   std::vector<Model*> models = scene->GetModels();
   for (auto it = models.begin(); it != models.end(); it++)
   {
     (*it)->Bind();
     shader->SetUniform3f("color", (*it)->GetColor());
-    glDrawElements(GL_TRIANGLES, (*it)->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
+    glDrawElements(Model::GetWire(), (*it)->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
     (*it)->Unbind();
   }
 

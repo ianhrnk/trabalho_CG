@@ -75,6 +75,14 @@ int main(void)
 
         scene.ChangeModelColor(name, v0, v1, v2);
       }
+      else if (comando.compare("wire_on") == 0)
+      {
+        Model::SetWire(GL_LINE_LOOP);
+      }
+      else if (comando.compare("wire_off") == 0)
+      {
+        Model::SetWire(GL_TRIANGLES);
+      }
       else if (comando.compare("quit") == 0)
       {
         sair = true;
