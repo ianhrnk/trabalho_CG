@@ -15,9 +15,9 @@
 class Model {
  private:
   std::string name;
-  VertexArray *vao;
-  VertexBuffer *vbo;
-  ElementBuffer *ebo;
+  VertexArray *vao = nullptr;
+  VertexBuffer *vbo = nullptr;
+  ElementBuffer *ebo = nullptr;
 
   void Init(const std::string shape);
   void LoadObj(const std::string &filename, std::vector<float> &vertices,
@@ -30,6 +30,7 @@ class Model {
   void Bind();
   void Unbind();
   const unsigned int GetNumIndices();
+  const std::string GetName();
 };
 
 #endif

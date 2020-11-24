@@ -115,3 +115,8 @@ const unsigned int Model::GetNumIndices()
 {
   return ebo->GetNumElementos();
 }
+
+const std::string Model::GetName()
+{
+  return name;
+}
