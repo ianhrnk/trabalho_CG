@@ -6,6 +6,7 @@ ElementBuffer::ElementBuffer(unsigned int count, const void* data)
   num_elementos = count;
   Bind();
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), data, GL_STATIC_DRAW);
+  Unbind();
 }
 
 ElementBuffer::~ElementBuffer()

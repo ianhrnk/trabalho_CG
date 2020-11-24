@@ -6,9 +6,7 @@
 #include <vector>
 #include <map>
 #include <fstream>
-#include <sstream>
 #include <limits>
-#include <iostream>
 
 #include "VertexArray.h"
 #include "VertexBuffer.h"
@@ -17,7 +15,6 @@
 class Model {
  private:
   std::string name;
-  unsigned int num_indices;
   VertexArray *vao;
   VertexBuffer *vbo;
   ElementBuffer *ebo;

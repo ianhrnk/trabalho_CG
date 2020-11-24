@@ -7,9 +7,8 @@ class VertexBuffer {
  private:
   unsigned int id;
 
-
  public:
-  VertexBuffer(unsigned int size, const void* data);
+  VertexBuffer(unsigned int count, const void* data);
   ~VertexBuffer();
 
   void Bind();

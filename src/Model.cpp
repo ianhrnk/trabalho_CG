@@ -28,7 +28,7 @@ void Model::Init(const std::string shape)
   else
     LoadObj("obj/torus.obj", vertices, normais, indices, vertices_normal);
 
-  // Unir os vertices e as normais em um buffer
+  // Unir os vertices e suas normais em um buffer
   buffer.reserve(2 * vertices.size());
   std::vector<float>::iterator it_vertices = vertices.begin();
   std::vector<float>::iterator it_normais;
@@ -40,13 +40,9 @@ void Model::Init(const std::string shape)
     buffer.insert(buffer.end(), it_normais, it_normais + 3);
   }
 
-  num_indices = indices.size();
-
   vao = new VertexArray();
-  vbo = new VertexBuffer(buffer.size() * sizeof(float), &buffer[0]);
-
+  vbo = new VertexBuffer(buffer.size(), &buffer[0]);
   vao->AddBuffer(vbo);
-
   ebo = new ElementBuffer(indices.size(), &indices[0]);
 
   vao->Unbind();
@@ -117,5 +113,5 @@ void Model::Unbind()
 
 const unsigned int Model::GetNumIndices()
 {
-  return num_indices;
+  return ebo->GetNumElementos();
 }

@@ -47,7 +47,7 @@ int main(void)
   glm::mat4 identity_matrix(1.0f);
   glm::mat4 model_matrix(1.0f);
   model_matrix = glm::rotate(model_matrix, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-  glm::mat4 projection_matrix = glm::ortho(-4.f, 4.f, -4.f, 4.f, 4.f, -4.f);
+  glm::mat4 projection_matrix = glm::ortho(-2.f, 2.f, -2.f, 2.f, 2.f, -2.f);
 
   // Shader
   Shader shader("shader/main.vs", "shader/main.fs");
@@ -70,7 +70,7 @@ int main(void)
     shader.Bind();
     model.Bind();
 
-    // Para ficar rotacionando o cubo
+    // Para ficar rotacionando o model
     model_matrix = glm::rotate(model_matrix, glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 1.0f));
     shader.SetUniformMatrix4fv("model", model_matrix);
 
