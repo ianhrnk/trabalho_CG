@@ -53,21 +53,21 @@ int main(void)
       std::stringstream ss(entrada);
       ss >> comando;
 
-      if (comando.compare("add_shape") == 0)
+      if (comando == "add_shape")
       {
         std::string shape, name;
         ss >> shape >> name;
 
         scene.AddModel(shape, name);
       }
-      if (comando.compare("remove_shape") == 0)
+      else if (comando == "remove_shape")
       {
         std::string name;
         ss >> name;
 
         scene.RemoveModel(name);
       }
-      else if (comando.compare("color") == 0)
+      else if (comando == "color")
       {
         std::string name;
         float v0, v1, v2;
@@ -75,15 +75,15 @@ int main(void)
 
         scene.ChangeModelColor(name, v0, v1, v2);
       }
-      else if (comando.compare("wire_on") == 0)
+      else if (comando == "wire_on")
       {
-        Model::SetWire(GL_LINE_LOOP);
+        scene.SetWire(true);
       }
-      else if (comando.compare("wire_off") == 0)
+      else if (comando == "wire_off")
       {
-        Model::SetWire(GL_TRIANGLES);
+        scene.SetWire(false);
       }
-      else if (comando.compare("quit") == 0)
+      else if (comando == "quit")
       {
         sair = true;
         glfwSetWindowShouldClose(window, GLFW_TRUE);

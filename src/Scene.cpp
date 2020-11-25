@@ -23,7 +23,7 @@ std::vector<Model*> Scene::GetModels()
 std::vector<Model*>::iterator Scene::SearchModel(const std::string &name)
 {
   for (auto it = models.begin(); it != models.end(); it++)
-    if (((*it)->GetName()).compare(name) == 0)
+    if ((*it)->GetName() == name)
       return it;
   return models.end();
 }
@@ -40,4 +40,14 @@ void Scene::ChangeModelColor(const std::string &name, float v0, float v1, float 
   std::vector<Model*>::iterator it = SearchModel(name);
   if (it != models.end())
     (*it)->SetColor(v0, v1, v2);
+}
+
+unsigned int Scene::GetWire()
+{
+  return wire;
+}
+
+void Scene::SetWire(bool on_off)
+{
+  wire = (on_off ? GL_LINE_STRIP : GL_TRIANGLES);
 }

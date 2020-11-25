@@ -1,7 +1,5 @@
 #include "Model.h"
 
-unsigned int Model::wire = GL_TRIANGLES;
-
 Model::Model(const std::string &shape, const std::string &name)
 {
   this->name = name;
@@ -21,11 +19,11 @@ void Model::Init(const std::string shape)
   std::vector<unsigned int> indices;
   std::map<unsigned int, unsigned int> vertices_normal;
 
-  if (shape.compare("cube") == 0)
+  if (shape == "cube")
     LoadObj("obj/cube.obj", vertices, normais, indices, vertices_normal);
-  else if (shape.compare("sphere") == 0)
+  else if (shape == "sphere")
     LoadObj("obj/sphere.obj", vertices, normais, indices, vertices_normal);
-  else if (shape.compare("cone") == 0)
+  else if (shape == "cone")
     LoadObj("obj/cone.obj", vertices, normais, indices, vertices_normal);
   else
     LoadObj("obj/torus.obj", vertices, normais, indices, vertices_normal);
@@ -66,21 +64,21 @@ void Model::LoadObj(const std::string &filename, std::vector<float> &vertices,
     while (!entrada.eof())
     {
       entrada >> line_header;
-      if (line_header.compare("v") == 0)
+      if (line_header == "v")
       {
         entrada >> v1 >> v2 >> v3;
         vertices.push_back(v1);
         vertices.push_back(v2);
         vertices.push_back(v3);
       }
-      else if (line_header.compare("vn") == 0)
+      else if (line_header == "vn")
       {
         entrada >> v1 >> v2 >> v3;
         normais.push_back(v1);
         normais.push_back(v2);
         normais.push_back(v3);
       }
-      else if (line_header.compare("f") == 0)
+      else if (line_header == "f")
       {
         for (int i = 0; i < 3; ++i)
         {
@@ -91,7 +89,7 @@ void Model::LoadObj(const std::string &filename, std::vector<float> &vertices,
           vertices_normal.insert(std::pair<unsigned int, unsigned int>(p1-1, p2-1));
         }
       }
-      else if (line_header.compare("#") == 0)
+      else if (line_header == "#")
       {
         entrada.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
       }
@@ -128,19 +126,9 @@ const glm::vec3 Model::GetColor()
   return color;
 }
 
-unsigned int Model::GetWire()
-{
-  return Model::wire;
-}
-
 void Model::SetColor(float v0, float v1, float v2)
 {
   color.x = v0;
   color.y = v1;
   color.z = v2;
-}
-
-void Model::SetWire(unsigned int mode)
-{
-  Model::wire = mode;
 }

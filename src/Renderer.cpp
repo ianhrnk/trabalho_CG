@@ -22,7 +22,7 @@ void Renderer::Draw()
   {
     (*it)->Bind();
     shader->SetUniform3f("color", (*it)->GetColor());
-    glDrawElements(Model::GetWire(), (*it)->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
+    glDrawElements(scene->GetWire(), (*it)->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
     (*it)->Unbind();
   }
 

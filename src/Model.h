@@ -17,8 +17,6 @@ class Model {
  private:
   std::string name;
   glm::vec3 color = glm::vec3(1.0f);
-  static unsigned int wire;
-
   VertexArray *vao = nullptr;
   VertexBuffer *vbo = nullptr;
   ElementBuffer *ebo = nullptr;
@@ -37,10 +35,8 @@ class Model {
   const unsigned int GetNumIndices();
   const std::string GetName();
   const glm::vec3 GetColor();
-  static unsigned int GetWire();
 
   void SetColor(float v0, float v1, float v2);
-  static void SetWire(unsigned int mode);
 };
 
 #endif
