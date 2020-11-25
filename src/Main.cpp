@@ -75,6 +75,14 @@ int main(void)
 
         scene.ChangeModelColor(name, v0, v1, v2);
       }
+      else if (comando == "axis_on")
+      {
+        scene.SetAxis(true);
+      }
+      else if (comando == "axis_off")
+      {
+        scene.SetAxis(false);
+      }
       else if (comando == "wire_on")
       {
         scene.SetWire(true);

@@ -21,6 +21,7 @@ class Model {
   VertexBuffer *vbo = nullptr;
   ElementBuffer *ebo = nullptr;
 
+  void CreateAxis();
   void Init(const std::string shape);
   void LoadObj(const std::string &filename, std::vector<float> &vertices,
               std::vector<float> &normais, std::vector<unsigned int> &indices,

@@ -8,10 +8,13 @@
 
 class Scene {
  private:
+  Model* axis;
   std::vector<Model*> models;
-  unsigned int wire = GL_TRIANGLES;
+  bool show_axis = false;
+  bool show_wire = false;
 
  public:
+  Scene();
   ~Scene();
 
   void AddModel(const std::string &shape, const std::string &name);
@@ -20,9 +23,12 @@ class Scene {
   void RemoveModel(const std::string &name);
   void ChangeModelColor(const std::string &name, float v0, float v1, float v2);
 
-  unsigned int GetWire();
+  bool GetShowWire();
+  bool GetShowAxis();
+  Model* GetAxis();
 
   void SetWire(bool on_off);
+  void SetAxis(bool on_off);
 };
 
 #endif

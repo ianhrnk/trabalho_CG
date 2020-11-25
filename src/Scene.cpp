@@ -1,9 +1,15 @@
 #include "Scene.h"
 
+Scene::Scene()
+{
+  axis = new Model("axis", "axis");
+}
+
 Scene::~Scene()
 {
   for (auto it = models.begin(); it != models.end(); it++)
     delete *it;
+  delete axis;
 }
 
 void Scene::AddModel(const std::string &shape, const std::string &name)
@@ -42,12 +48,27 @@ void Scene::ChangeModelColor(const std::string &name, float v0, float v1, float 
     (*it)->SetColor(v0, v1, v2);
 }
 
-unsigned int Scene::GetWire()
+bool Scene::GetShowWire()
 {
-  return wire;
+  return show_wire;
 }
 
 void Scene::SetWire(bool on_off)
 {
-  wire = (on_off ? GL_LINE_STRIP : GL_TRIANGLES);
+  show_wire = on_off;
+}
+
+bool Scene::GetShowAxis()
+{
+  return show_axis;
+}
+
+Model* Scene::GetAxis()
+{
+  return axis;
+}
+
+void Scene::SetAxis(bool on_off)
+{
+  show_axis = on_off;
 }

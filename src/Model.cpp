@@ -3,7 +3,11 @@
 Model::Model(const std::string &shape, const std::string &name)
 {
   this->name = name;
-  Init(shape);
+
+  if (shape == "axis")
+    CreateAxis();
+  else
+    Init(shape);
 }
 
 Model::~Model()
@@ -97,6 +101,30 @@ void Model::LoadObj(const std::string &filename, std::vector<float> &vertices,
     }
   }
   entrada.close();
+}
+
+void Model::CreateAxis()
+{
+  float vertices[] = {
+    // Vertices e normais (zeradas)
+    0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+    1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+    0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+    0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f
+  };
+
+  unsigned int indices[] = {
+    0, 1, 2, 0, 0, 3
+  };
+
+  vao = new VertexArray();
+  vbo = new VertexBuffer(24, vertices);
+  vao->AddBuffer(vbo);
+  ebo = new ElementBuffer(6, indices);
+
+  vao->Unbind();
+  vbo->Unbind();
+  ebo->Unbind();
 }
 
 void Model::Bind()
