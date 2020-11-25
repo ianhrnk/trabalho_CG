@@ -8,6 +8,7 @@
 #include <fstream>
 #include <limits>
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "VertexArray.h"
 #include "VertexBuffer.h"
@@ -17,6 +18,8 @@ class SceneObject {
  private:
   std::string name;
   glm::vec3 color = glm::vec3(1.0f);
+  glm::mat4 model_matrix = glm::mat4(1.0f);
+
   VertexArray *vao = nullptr;
   VertexBuffer *vbo = nullptr;
   ElementBuffer *ebo = nullptr;
@@ -34,11 +37,14 @@ class SceneObject {
   void Bind();
   void Unbind();
 
+  void Rotate(float angle, glm::vec3 value);
+
   const std::string GetName();
   const glm::vec3 GetColor();
+  const glm::mat4 GetModelMatrix();
   const unsigned int GetNumIndices();
 
-  void SetColor(float v0, float v1, float v2);
+  void SetColor(glm::vec3 value);
 };
 
 #endif

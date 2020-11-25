@@ -41,11 +41,19 @@ void Scene::RemoveObject(const std::string &name)
     objects.erase(it);
 }
 
-void Scene::ChangeObjectColor(const std::string &name, float v0, float v1, float v2)
+void Scene::ChangeObjectColor(const std::string &name, glm::vec3 value)
 {
   std::vector<SceneObject*>::iterator it = SearchObject(name);
   if (it != objects.end())
-    (*it)->SetColor(v0, v1, v2);
+    (*it)->SetColor(value);
+}
+
+void Scene::RotateObject(const std::string &name, float angle,
+                         glm::vec3 value)
+{
+  std::vector<SceneObject*>::iterator it = SearchObject(name);
+  if (it != objects.end())
+    (*it)->Rotate(angle, value);
 }
 
 bool Scene::GetShowWire()

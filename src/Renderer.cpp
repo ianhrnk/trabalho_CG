@@ -23,6 +23,7 @@ void Renderer::Draw()
   {
     SceneObject* axis = scene->GetAxis();
     axis->Bind();
+    shader->SetUniformMatrix4fv("model", axis->GetModelMatrix());
     shader->SetUniform3f("color", 1.0f, 0.0f, 0.0f);
     glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, nullptr);
     shader->SetUniform3f("color", 0.0f, 1.0f, 0.0f);
@@ -34,10 +35,11 @@ void Renderer::Draw()
 
   // Para desenhar todos os objetos da cena
   std::vector<SceneObject*> objects = scene->GetObjects();
-  unsigned int mode = (scene->GetShowWire() ? GL_LINES : GL_TRIANGLES);
+  unsigned int mode = (scene->GetShowWire() ? GL_LINE_LOOP : GL_TRIANGLES);
   for (auto it = objects.begin(); it != objects.end(); it++)
   {
     (*it)->Bind();
+    shader->SetUniformMatrix4fv("model", (*it)->GetModelMatrix());
     shader->SetUniform3f("color", (*it)->GetColor());
     glDrawElements(mode, (*it)->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
     (*it)->Unbind();

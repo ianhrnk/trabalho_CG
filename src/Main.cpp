@@ -46,6 +46,9 @@ int main(void)
   /* Loop until the user closes the window - Render section */
   while (!glfwWindowShouldClose(window))
   {
+    std::string name;
+    glm::vec3 value;
+
     while (!sair)
     {
       std::getline(std::cin, entrada);
@@ -54,25 +57,25 @@ int main(void)
 
       if (comando == "add_shape")
       {
-        std::string shape, name;
+        std::string shape;
         ss >> shape >> name;
-
         scene.AddObject(shape, name);
       }
       else if (comando == "remove_shape")
       {
-        std::string name;
         ss >> name;
-
         scene.RemoveObject(name);
       }
       else if (comando == "color")
       {
-        std::string name;
-        float v0, v1, v2;
-        ss >> name >> v0 >> v1 >> v2;
-
-        scene.ChangeObjectColor(name, v0, v1, v2);
+        ss >> name >> value.x >> value.y >> value.z;
+        scene.ChangeObjectColor(name, value);
+      }
+      else if (comando == "rotate")
+      {
+        float angle;
+        ss >> name >> angle >> value.x >> value.y >> value.z;
+        scene.RotateObject(name, angle, value);
       }
       else if (comando == "axis_on")
       {

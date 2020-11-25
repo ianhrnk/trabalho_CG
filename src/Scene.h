@@ -19,7 +19,8 @@ class Scene {
 
   void AddObject(const std::string &shape, const std::string &name);
   void RemoveObject(const std::string &name);
-  void ChangeObjectColor(const std::string &name, float v0, float v1, float v2);
+  void ChangeObjectColor(const std::string &name, glm::vec3 value);
+  void RotateObject(const std::string &name, float angle, glm::vec3 value);
   std::vector<SceneObject*>::iterator SearchObject(const std::string &name);
   std::vector<SceneObject*> GetObjects();
 

@@ -139,6 +139,11 @@ void SceneObject::Unbind()
   ebo->Unbind();
 }
 
+void SceneObject::Rotate(float angle, glm::vec3 value)
+{
+  model_matrix = glm::rotate(model_matrix, glm::radians(angle), value);
+}
+
 const unsigned int SceneObject::GetNumIndices()
 {
   return ebo->GetNumElementos();
@@ -154,9 +159,12 @@ const glm::vec3 SceneObject::GetColor()
   return color;
 }
 
-void SceneObject::SetColor(float v0, float v1, float v2)
+const glm::mat4 SceneObject::GetModelMatrix()
 {
-  color.x = v0;
-  color.y = v1;
-  color.z = v2;
+  return model_matrix;
+}
+
+void SceneObject::SetColor(glm::vec3 value)
+{
+  color = value;
 }
