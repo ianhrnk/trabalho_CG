@@ -149,6 +149,14 @@ void SceneObject::Scale(glm::vec3 value)
   model_matrix = glm::scale(model_matrix, value);
 }
 
+void SceneObject::Shear(float v0, float v1, float v2, float v3,
+                        float v4, float v5)
+{
+  model_matrix = glm::shearX3D(model_matrix, v0, v1);
+  model_matrix = glm::shearY3D(model_matrix, v2, v3);
+  model_matrix = glm::shearZ3D(model_matrix, v4, v5);
+}
+
 void SceneObject::Rotate(float angle, glm::vec3 value)
 {
   model_matrix = glm::rotate(model_matrix, glm::radians(angle), value);

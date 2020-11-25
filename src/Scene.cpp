@@ -62,6 +62,14 @@ void Scene::ScaleObject(const std::string &name, glm::vec3 value)
     (*it)->Scale(value);
 }
 
+void Scene::ShearObject(const std::string &name, float v0, float v1,
+                        float v2, float v3, float v4, float v5)
+{
+  std::vector<SceneObject*>::iterator it = SearchObject(name);
+  if (it != objects.end())
+    (*it)->Shear(v0, v1, v2, v3, v4, v5);
+}
+
 void Scene::RotateObject(const std::string &name, float angle,
                          glm::vec3 value)
 {

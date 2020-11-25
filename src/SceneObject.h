@@ -9,6 +9,7 @@
 #include <limits>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/transform2.hpp>
 
 #include "VertexArray.h"
 #include "VertexBuffer.h"
@@ -39,6 +40,7 @@ class SceneObject {
 
   void Translate(glm::vec3 value);
   void Scale(glm::vec3 value);
+  void Shear(float v0, float v1, float v2, float v3, float v4, float v5);
   void Rotate(float angle, glm::vec3 value);
 
   const std::string GetName();

@@ -81,6 +81,12 @@ int main(void)
         ss >> name >> value.x >> value.y >> value.z;
         scene.ScaleObject(name, value);
       }
+      else if (comando == "shear")
+      {
+        float v0, v1, v2, v3, v4, v5;
+        ss >> name >> v0 >> v1 >> v2 >> v3 >> v4 >> v5;
+        scene.ShearObject(name, v0, v1, v2, v3, v4, v5);
+      }
       else if (comando == "rotate")
       {
         float angle;

@@ -26,6 +26,8 @@ class Scene {
 
   void TranslateObject(const std::string &name, glm::vec3 value);
   void ScaleObject(const std::string &name, glm::vec3 value);
+  void ShearObject(const std::string &name, float v0, float v1,
+                   float v2, float v3, float v4, float v5);
   void RotateObject(const std::string &name, float angle, glm::vec3 value);
 
   bool GetShowWire();
