@@ -1,5 +1,5 @@
 CC = g++
-FLAGS = -lGLEW -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl
+FLAGS = -lGLEW -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -Wall
 OBJ_DIR = src/obj
 
 all: criar_pasta_obj src/obj/ElementBuffer.o src/obj/Main.o src/obj/SceneObject.o	\
