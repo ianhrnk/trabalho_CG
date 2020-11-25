@@ -5,8 +5,6 @@
 #include <iostream>
 #include <sstream>
 
-#include "Scene.h"
-#include "Shader.h"
 #include "Renderer.h"
 
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -39,7 +37,6 @@ int main(void)
 
   /* Init section */
   Shader shader("shader/main.vs", "shader/main.fs");
-  shader.InitMatrices();
   Scene scene;
   Renderer renderer(&shader, &scene);
 
@@ -92,6 +89,16 @@ int main(void)
         float angle;
         ss >> name >> angle >> value.x >> value.y >> value.z;
         scene.RotateObject(name, angle, value);
+      }
+      else if (comando == "lookat")
+      {
+        ss >> value.x >> value.y >> value.z;
+        scene.SetCameraLookAt(value);
+      }
+      else if (comando == "cam")
+      {
+        ss >> value.x >> value.y >> value.z;
+        scene.SetCameraPosition(value);
       }
       else if (comando == "axis_on")
       {

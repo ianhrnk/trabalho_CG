@@ -78,17 +78,26 @@ void Scene::RotateObject(const std::string &name, float angle,
     (*it)->Rotate(angle, value);
 }
 
-bool Scene::ShowWire()
-{ return show_wire; }
+Camera Scene::GetCamera()
+{ return camera; }
 
-void Scene::SetWire(bool on_off)
-{ show_wire = on_off; }
+SceneObject* Scene::GetAxis()
+{ return axis; }
 
 bool Scene::ShowAxis()
 { return show_axis; }
 
+bool Scene::ShowWire()
+{ return show_wire; }
+
 void Scene::SetAxis(bool on_off)
 { show_axis = on_off; }
 
-SceneObject* Scene::GetAxis()
-{ return axis; }
+void Scene::SetWire(bool on_off)
+{ show_wire = on_off; }
+
+void Scene::SetCameraPosition(glm::vec3 value)
+{ camera.SetPosition(value); }
+
+void Scene::SetCameraLookAt(glm::vec3 value)
+{ camera.SetTarget(value); }

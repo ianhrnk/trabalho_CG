@@ -4,10 +4,12 @@
 #include <GL/glew.h>
 #include <vector>
 
+#include "Camera.h"
 #include "SceneObject.h"
 
 class Scene {
  private:
+  Camera camera;
   SceneObject* axis;
   std::vector<SceneObject*> objects;
   bool show_axis = false;
@@ -30,12 +32,15 @@ class Scene {
                    float v2, float v3, float v4, float v5);
   void RotateObject(const std::string &name, float angle, glm::vec3 value);
 
-  bool ShowWire();
-  bool ShowAxis();
+  Camera GetCamera();
   SceneObject* GetAxis();
+  bool ShowAxis();
+  bool ShowWire();
 
-  void SetWire(bool on_off);
   void SetAxis(bool on_off);
+  void SetWire(bool on_off);
+  void SetCameraPosition(glm::vec3 value);
+  void SetCameraLookAt(glm::vec3 value);
 };
 
 #endif

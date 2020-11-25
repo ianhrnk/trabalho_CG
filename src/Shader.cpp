@@ -81,19 +81,14 @@ void Shader::LinkShaderProgram(unsigned int vertex_shader, unsigned int fragment
   glUseProgram(0);
 }
 
-void Shader::Bind() { glUseProgram(this->id); }
-
-void Shader::Unbind() { glUseProgram(0); }
-
-void Shader::InitMatrices()
+void Shader::Bind()
 {
-  Bind();
-  glm::mat4 identity_matrix(1.0f);
-  glm::mat4 projection_matrix = glm::ortho(-2.f, 2.f, -2.f, 2.f, 2.f, -2.f);
-  SetUniformMatrix4fv("model", identity_matrix);
-  SetUniformMatrix4fv("view", identity_matrix);
-  SetUniformMatrix4fv("projection", projection_matrix);
-  Unbind();
+  glUseProgram(this->id);
+}
+
+void Shader::Unbind()
+{
+  glUseProgram(0);
 }
 
 int Shader::GetUniformLocation(const std::string& name) {
@@ -119,10 +114,12 @@ void Shader::SetUniform3f(const std::string&name, glm::vec3 vec)
 }
 
 void Shader::SetUniform4f(const std::string& name, float v0, float v1,
-                          float v2, float v3) {
+                          float v2, float v3)
+{
   glUniform4f(GetUniformLocation(name), v0, v1, v2, v3);
 }
 
-void Shader::SetUniformMatrix4fv(const std::string& name, glm::mat4 value) {
+void Shader::SetUniformMatrix4fv(const std::string& name, glm::mat4 value)
+{
   glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(value));
 }

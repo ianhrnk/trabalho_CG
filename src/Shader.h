@@ -28,7 +28,6 @@ class Shader
 
   void Bind();
   void Unbind();
-  void InitMatrices();
 
   // Uniform functions
   void SetUniform1f(const std::string& name, float v0);

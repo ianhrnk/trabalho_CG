@@ -11,11 +11,14 @@ class Renderer {
   Scene *scene = nullptr;
   Shader *shader = nullptr;
 
+  void DrawAxis();
+  void DrawObjects();
+
  public:
-  Renderer(Shader *shader, Scene *scene); //Adicionar camera
-  ~Renderer();
+  Renderer(Shader *shader, Scene *scene);
+  ~Renderer() = default;
+
   void Draw();
-  //void Finalize();
 };
 
 #endif

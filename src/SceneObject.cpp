@@ -24,9 +24,9 @@ void SceneObject::Init(const std::string shape)
     buffer = {
       // Vertices e normais (zeradas)
       0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-      1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-      0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-      0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f
+      2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+      0.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+      0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f
     };
 
     indices = {
