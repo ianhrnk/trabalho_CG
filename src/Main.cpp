@@ -5,7 +5,6 @@
 #include <iostream>
 #include <sstream>
 
-#include "Model.h"
 #include "Scene.h"
 #include "Shader.h"
 #include "Renderer.h"
@@ -58,14 +57,14 @@ int main(void)
         std::string shape, name;
         ss >> shape >> name;
 
-        scene.AddModel(shape, name);
+        scene.AddObject(shape, name);
       }
       else if (comando == "remove_shape")
       {
         std::string name;
         ss >> name;
 
-        scene.RemoveModel(name);
+        scene.RemoveObject(name);
       }
       else if (comando == "color")
       {
@@ -73,7 +72,7 @@ int main(void)
         float v0, v1, v2;
         ss >> name >> v0 >> v1 >> v2;
 
-        scene.ChangeModelColor(name, v0, v1, v2);
+        scene.ChangeObjectColor(name, v0, v1, v2);
       }
       else if (comando == "axis_on")
       {

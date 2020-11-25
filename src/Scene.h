@@ -4,12 +4,12 @@
 #include <GL/glew.h>
 #include <vector>
 
-#include "Model.h"
+#include "SceneObject.h"
 
 class Scene {
  private:
-  Model* axis;
-  std::vector<Model*> models;
+  SceneObject* axis;
+  std::vector<SceneObject*> objects;
   bool show_axis = false;
   bool show_wire = false;
 
@@ -17,15 +17,15 @@ class Scene {
   Scene();
   ~Scene();
 
-  void AddModel(const std::string &shape, const std::string &name);
-  void RemoveModel(const std::string &name);
-  void ChangeModelColor(const std::string &name, float v0, float v1, float v2);
-  std::vector<Model*>::iterator SearchModel(const std::string &name);
-  std::vector<Model*> GetModels();
+  void AddObject(const std::string &shape, const std::string &name);
+  void RemoveObject(const std::string &name);
+  void ChangeObjectColor(const std::string &name, float v0, float v1, float v2);
+  std::vector<SceneObject*>::iterator SearchObject(const std::string &name);
+  std::vector<SceneObject*> GetObjects();
 
   bool GetShowWire();
   bool GetShowAxis();
-  Model* GetAxis();
+  SceneObject* GetAxis();
 
   void SetWire(bool on_off);
   void SetAxis(bool on_off);

@@ -2,49 +2,49 @@
 
 Scene::Scene()
 {
-  axis = new Model("axis", "axis");
+  axis = new SceneObject("axis", "axis");
 }
 
 Scene::~Scene()
 {
-  for (auto it = models.begin(); it != models.end(); it++)
+  for (auto it = objects.begin(); it != objects.end(); it++)
     delete *it;
   delete axis;
 }
 
-void Scene::AddModel(const std::string &shape, const std::string &name)
+void Scene::AddObject(const std::string &shape, const std::string &name)
 {
-  if (SearchModel(name) == models.end())
+  if (SearchObject(name) == objects.end())
   {
-    Model *model = new Model(shape, name);
-    models.push_back(model);
+    SceneObject *object = new SceneObject(shape, name);
+    objects.push_back(object);
   }
 }
 
-std::vector<Model*> Scene::GetModels()
+std::vector<SceneObject*> Scene::GetObjects()
 {
-  return models;
+  return objects;
 }
 
-std::vector<Model*>::iterator Scene::SearchModel(const std::string &name)
+std::vector<SceneObject*>::iterator Scene::SearchObject(const std::string &name)
 {
-  for (auto it = models.begin(); it != models.end(); it++)
+  for (auto it = objects.begin(); it != objects.end(); it++)
     if ((*it)->GetName() == name)
       return it;
-  return models.end();
+  return objects.end();
 }
 
-void Scene::RemoveModel(const std::string &name)
+void Scene::RemoveObject(const std::string &name)
 {
-  std::vector<Model*>::iterator it = SearchModel(name);
-  if (it != models.end())
-    models.erase(it);
+  std::vector<SceneObject*>::iterator it = SearchObject(name);
+  if (it != objects.end())
+    objects.erase(it);
 }
 
-void Scene::ChangeModelColor(const std::string &name, float v0, float v1, float v2)
+void Scene::ChangeObjectColor(const std::string &name, float v0, float v1, float v2)
 {
-  std::vector<Model*>::iterator it = SearchModel(name);
-  if (it != models.end())
+  std::vector<SceneObject*>::iterator it = SearchObject(name);
+  if (it != objects.end())
     (*it)->SetColor(v0, v1, v2);
 }
 
@@ -63,7 +63,7 @@ bool Scene::GetShowAxis()
   return show_axis;
 }
 
-Model* Scene::GetAxis()
+SceneObject* Scene::GetAxis()
 {
   return axis;
 }

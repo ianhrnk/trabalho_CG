@@ -1,6 +1,6 @@
-#include "Model.h"
+#include "SceneObject.h"
 
-Model::Model(const std::string &shape, const std::string &name)
+SceneObject::SceneObject(const std::string &shape, const std::string &name)
 {
   this->name = name;
 
@@ -10,14 +10,14 @@ Model::Model(const std::string &shape, const std::string &name)
     Init(shape);
 }
 
-Model::~Model()
+SceneObject::~SceneObject()
 {
   delete vao;
   delete vbo;
   delete ebo;
 }
 
-void Model::Init(const std::string shape)
+void SceneObject::Init(const std::string shape)
 {
   std::vector<float> vertices, normais, buffer;
   std::vector<unsigned int> indices;
@@ -54,7 +54,7 @@ void Model::Init(const std::string shape)
   ebo->Unbind();
 }
 
-void Model::LoadObj(const std::string &filename, std::vector<float> &vertices,
+void SceneObject::LoadObj(const std::string &filename, std::vector<float> &vertices,
                     std::vector<float> &normais, std::vector<unsigned int> &indices,
                     std::map<unsigned int, unsigned int> &vertices_normal)
 {
@@ -103,7 +103,7 @@ void Model::LoadObj(const std::string &filename, std::vector<float> &vertices,
   entrada.close();
 }
 
-void Model::CreateAxis()
+void SceneObject::CreateAxis()
 {
   float vertices[] = {
     // Vertices e normais (zeradas)
@@ -127,34 +127,34 @@ void Model::CreateAxis()
   ebo->Unbind();
 }
 
-void Model::Bind()
+void SceneObject::Bind()
 {
   vao->Bind();
   ebo->Bind();
 }
 
-void Model::Unbind()
+void SceneObject::Unbind()
 {
   vao->Unbind();
   ebo->Unbind();
 }
 
-const unsigned int Model::GetNumIndices()
+const unsigned int SceneObject::GetNumIndices()
 {
   return ebo->GetNumElementos();
 }
 
-const std::string Model::GetName()
+const std::string SceneObject::GetName()
 {
   return name;
 }
 
-const glm::vec3 Model::GetColor()
+const glm::vec3 SceneObject::GetColor()
 {
   return color;
 }
 
-void Model::SetColor(float v0, float v1, float v2)
+void SceneObject::SetColor(float v0, float v1, float v2)
 {
   color.x = v0;
   color.y = v1;

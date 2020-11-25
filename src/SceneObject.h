@@ -1,5 +1,5 @@
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef SCENEOBJECT_H
+#define SCENEOBJECT_H
 
 #include <GL/glew.h>
 #include <string>
@@ -13,7 +13,7 @@
 #include "VertexBuffer.h"
 #include "ElementBuffer.h"
 
-class Model {
+class SceneObject {
  private:
   std::string name;
   glm::vec3 color = glm::vec3(1.0f);
@@ -28,8 +28,8 @@ class Model {
               std::map<unsigned int, unsigned int> &vertices_normal);
 
  public:
-  Model(const std::string &shape, const std::string &name);
-  ~Model();
+  SceneObject(const std::string &shape, const std::string &name);
+  ~SceneObject();
 
   void Bind();
   void Unbind();

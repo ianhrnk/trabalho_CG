@@ -21,7 +21,7 @@ void Renderer::Draw()
   // Para desenhar os eixos
   if (scene->GetShowAxis())
   {
-    Model* axis = scene->GetAxis();
+    SceneObject* axis = scene->GetAxis();
     axis->Bind();
     shader->SetUniform3f("color", 1.0f, 0.0f, 0.0f);
     glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, nullptr);
@@ -33,9 +33,9 @@ void Renderer::Draw()
   }
 
   // Para desenhar todos os objetos da cena
-  std::vector<Model*> models = scene->GetModels();
+  std::vector<SceneObject*> objects = scene->GetObjects();
   unsigned int mode = (scene->GetShowWire() ? GL_LINES : GL_TRIANGLES);
-  for (auto it = models.begin(); it != models.end(); it++)
+  for (auto it = objects.begin(); it != objects.end(); it++)
   {
     (*it)->Bind();
     shader->SetUniform3f("color", (*it)->GetColor());
