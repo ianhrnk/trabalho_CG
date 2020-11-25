@@ -3,8 +3,8 @@ FLAGS = -lGLEW -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl
 OBJ_DIR = src/obj
 
 all: criar_pasta_obj src/obj/ElementBuffer.o src/obj/Main.o src/obj/Model.o	\
-	 src/obj/Renderer.o src/obj/Shader.o src/obj/VertexArray.o \
-	 src/obj/VertexBuffer.o src/obj/Scene.o Main
+	 src/obj/Renderer.o src/obj/Scene.o src/obj/Shader.o src/obj/VertexArray.o \
+	 src/obj/VertexBuffer.o Main
 
 criar_pasta_obj:
 	@mkdir -p $(OBJ_DIR)
@@ -13,7 +13,7 @@ src/obj/ElementBuffer.o: src/ElementBuffer.cpp src/ElementBuffer.h
 	@echo compilando $@
 	@$(CC) -c $< $(FLAGS) -o $@
 
-src/obj/Main.o: src/Main.cpp src/Shader.h src/Model.h
+src/obj/Main.o: src/Main.cpp src/Scene.h src/Shader.h src/Model.h src/Renderer.h
 	@echo compilando $@
 	@$(CC) -c $< $(FLAGS) -o $@
 
