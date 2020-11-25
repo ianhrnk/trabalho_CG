@@ -25,11 +25,14 @@ class SceneObject {
   VertexBuffer *vbo = nullptr;
   ElementBuffer *ebo = nullptr;
 
-  void CreateAxis();
   void Init(const std::string shape);
+  void MergeVerticesNormals(std::vector<float> &buffer,
+                            std::vector<float> vertices,
+                            std::vector<float> normals,
+                            std::map<unsigned int, unsigned int> v_n);
   void LoadObj(const std::string &filename, std::vector<float> &vertices,
-              std::vector<float> &normais, std::vector<unsigned int> &indices,
-              std::map<unsigned int, unsigned int> &vertices_normal);
+              std::vector<float> &normals, std::vector<unsigned int> &indices,
+              std::map<unsigned int, unsigned int> &v_n);
 
  public:
   SceneObject(const std::string &shape, const std::string &name);
@@ -43,10 +46,10 @@ class SceneObject {
   void Shear(float v0, float v1, float v2, float v3, float v4, float v5);
   void Rotate(float angle, glm::vec3 value);
 
-  const std::string GetName();
-  const glm::vec3 GetColor();
-  const glm::mat4 GetModelMatrix();
-  const unsigned int GetNumIndices();
+  std::string GetName();
+  glm::vec3 GetColor();
+  glm::mat4 GetModelMatrix();
+  unsigned int GetNumIndices();
 
   void SetColor(glm::vec3 value);
 };

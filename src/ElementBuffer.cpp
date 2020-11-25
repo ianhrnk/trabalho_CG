@@ -24,7 +24,5 @@ void ElementBuffer::Unbind()
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-const unsigned int ElementBuffer::GetNumElementos()
-{
-  return num_elementos;
-}
+unsigned int ElementBuffer::NumElementos()
+{ return num_elementos; }

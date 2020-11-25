@@ -30,8 +30,8 @@ class Scene {
                    float v2, float v3, float v4, float v5);
   void RotateObject(const std::string &name, float angle, glm::vec3 value);
 
-  bool GetShowWire();
-  bool GetShowAxis();
+  bool ShowWire();
+  bool ShowAxis();
   SceneObject* GetAxis();
 
   void SetWire(bool on_off);

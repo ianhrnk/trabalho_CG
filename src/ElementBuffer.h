@@ -15,7 +15,7 @@ class ElementBuffer {
   void Bind();
   void Unbind();
 
-  const unsigned int GetNumElementos();
+  unsigned int NumElementos();
 };
 
 #endif

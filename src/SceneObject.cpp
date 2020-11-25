@@ -3,11 +3,7 @@
 SceneObject::SceneObject(const std::string &shape, const std::string &name)
 {
   this->name = name;
-
-  if (shape == "axis")
-    CreateAxis();
-  else
-    Init(shape);
+  Init(shape);
 }
 
 SceneObject::~SceneObject()
@@ -19,29 +15,36 @@ SceneObject::~SceneObject()
 
 void SceneObject::Init(const std::string shape)
 {
-  std::vector<float> vertices, normais, buffer;
+  std::vector<float> vertices, normals, buffer;
   std::vector<unsigned int> indices;
-  std::map<unsigned int, unsigned int> vertices_normal;
+  std::map<unsigned int, unsigned int> v_n;
 
-  if (shape == "cube")
-    LoadObj("obj/cube.obj", vertices, normais, indices, vertices_normal);
-  else if (shape == "sphere")
-    LoadObj("obj/sphere.obj", vertices, normais, indices, vertices_normal);
-  else if (shape == "cone")
-    LoadObj("obj/cone.obj", vertices, normais, indices, vertices_normal);
-  else
-    LoadObj("obj/torus.obj", vertices, normais, indices, vertices_normal);
-
-  // Unir os vertices e suas normais em um buffer
-  buffer.reserve(2 * vertices.size());
-  std::vector<float>::iterator it_vertices = vertices.begin();
-  std::vector<float>::iterator it_normais;
-  for (unsigned int i = 0; i < vertices_normal.size(); ++i)
+  if (shape == "axis")
   {
-    buffer.insert(buffer.end(), it_vertices, it_vertices + 3);
-    it_vertices += 3;
-    it_normais = normais.begin() + (vertices_normal[i] * 3);
-    buffer.insert(buffer.end(), it_normais, it_normais + 3);
+    buffer = {
+      // Vertices e normais (zeradas)
+      0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+      1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+      0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+      0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f
+    };
+
+    indices = {
+      0, 1, 2, 0, 0, 3
+    };
+  }
+  else
+  {
+    if (shape == "cube")
+      LoadObj("obj/cube.obj", vertices, normals, indices, v_n);
+    else if (shape == "sphere")
+      LoadObj("obj/sphere.obj", vertices, normals, indices, v_n);
+    else if (shape == "cone")
+      LoadObj("obj/cone.obj", vertices, normals, indices, v_n);
+    else
+      LoadObj("obj/torus.obj", vertices, normals, indices, v_n);
+
+    MergeVerticesNormals(buffer, vertices, normals, v_n);
   }
 
   vao = new VertexArray();
@@ -54,77 +57,72 @@ void SceneObject::Init(const std::string shape)
   ebo->Unbind();
 }
 
-void SceneObject::LoadObj(const std::string &filename, std::vector<float> &vertices,
-                    std::vector<float> &normais, std::vector<unsigned int> &indices,
-                    std::map<unsigned int, unsigned int> &vertices_normal)
+void
+SceneObject::MergeVerticesNormals(std::vector<float> &buffer,
+                                  std::vector<float> vertices,
+                                  std::vector<float> normals,
+                                  std::map<unsigned int, unsigned int> v_n)
 {
-  std::ifstream entrada(filename);
+  buffer.reserve(2 * vertices.size());
+  std::vector<float>::iterator it_vertices = vertices.begin();
+  std::vector<float>::iterator it_normals;
+  for (unsigned int i = 0; i < v_n.size(); ++i)
+  {
+    buffer.insert(buffer.end(), it_vertices, it_vertices + 3);
+    it_vertices += 3;
+    it_normals = normals.begin() + (v_n[i] * 3);
+    buffer.insert(buffer.end(), it_normals, it_normals + 3);
+  }
+}
+
+void
+SceneObject::LoadObj(const std::string &filename, std::vector<float> &vertices,
+                    std::vector<float> &normals, std::vector<unsigned int> &indices,
+                    std::map<unsigned int, unsigned int> &v_n)
+{
+  std::ifstream in(filename);
   std::string line_header, temp, temp2;
   float v1, v2, v3;
   unsigned int p1, p2;
 
-  if (entrada.is_open())
+  if (in.is_open())
   {
-    while (!entrada.eof())
+    while (!in.eof())
     {
-      entrada >> line_header;
+      in >> line_header;
       if (line_header == "v")
       {
-        entrada >> v1 >> v2 >> v3;
+        in >> v1 >> v2 >> v3;
         vertices.push_back(v1);
         vertices.push_back(v2);
         vertices.push_back(v3);
       }
       else if (line_header == "vn")
       {
-        entrada >> v1 >> v2 >> v3;
-        normais.push_back(v1);
-        normais.push_back(v2);
-        normais.push_back(v3);
+        in >> v1 >> v2 >> v3;
+        normals.push_back(v1);
+        normals.push_back(v2);
+        normals.push_back(v3);
       }
       else if (line_header == "f")
       {
         for (int i = 0; i < 3; ++i)
         {
-          entrada >> temp;
+          in >> temp;
           p1 = std::stoul(temp.substr(0, temp.find("//")), nullptr, 10);
           p2 = std::stoul(temp.substr(temp.find("//")+2, temp.length()), nullptr, 10);
           indices.push_back(p1-1);
-          vertices_normal.insert(std::pair<unsigned int, unsigned int>(p1-1, p2-1));
+          v_n.insert(std::pair<unsigned int, unsigned int>(p1-1, p2-1));
         }
       }
       else if (line_header == "#")
       {
-        entrada.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
       }
       line_header.clear();
     }
   }
-  entrada.close();
-}
-
-void SceneObject::CreateAxis()
-{
-  float vertices[] = {
-    // Vertices e normais (zeradas)
-    0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-    1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-    0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-    0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f
-  };
-
-  unsigned int indices[] = {
-    0, 1, 2, 0, 0, 3
-  };
-
-  vao = new VertexArray();
-  vbo = new VertexBuffer(24, vertices);
-  vao->AddBuffer(vbo);
-  ebo = new ElementBuffer(6, indices);
-
-  vao->Unbind();
-  vbo->Unbind();
-  ebo->Unbind();
+  in.close();
 }
 
 void SceneObject::Bind()
@@ -162,27 +160,17 @@ void SceneObject::Rotate(float angle, glm::vec3 value)
   model_matrix = glm::rotate(model_matrix, glm::radians(angle), value);
 }
 
-const unsigned int SceneObject::GetNumIndices()
-{
-  return ebo->GetNumElementos();
-}
+unsigned int SceneObject::GetNumIndices()
+{ return ebo->NumElementos(); }
 
-const std::string SceneObject::GetName()
-{
-  return name;
-}
+std::string SceneObject::GetName()
+{ return name; }
 
-const glm::vec3 SceneObject::GetColor()
-{
-  return color;
-}
+glm::vec3 SceneObject::GetColor()
+{ return color; }
 
-const glm::mat4 SceneObject::GetModelMatrix()
-{
-  return model_matrix;
-}
+glm::mat4 SceneObject::GetModelMatrix()
+{ return model_matrix; }
 
 void SceneObject::SetColor(glm::vec3 value)
-{
-  color = value;
-}
+{ color = value; }

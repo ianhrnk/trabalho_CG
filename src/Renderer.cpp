@@ -19,7 +19,7 @@ void Renderer::Draw()
   shader->Bind();
 
   // Para desenhar os eixos
-  if (scene->GetShowAxis())
+  if (scene->ShowAxis())
   {
     SceneObject* axis = scene->GetAxis();
     axis->Bind();
@@ -34,8 +34,8 @@ void Renderer::Draw()
   }
 
   // Para desenhar todos os objetos da cena
+  unsigned int mode = (scene->ShowWire() ? GL_LINE_STRIP : GL_TRIANGLES);
   std::vector<SceneObject*> objects = scene->GetObjects();
-  unsigned int mode = (scene->GetShowWire() ? GL_LINE_LOOP : GL_TRIANGLES);
   for (auto it = objects.begin(); it != objects.end(); it++)
   {
     (*it)->Bind();
