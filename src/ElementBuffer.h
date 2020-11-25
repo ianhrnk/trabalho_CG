@@ -1,7 +1,7 @@
 #ifndef ELEMENTBUFFER_H
 #define ELEMENTBUFFER_H
 
-#include "GL/glew.h"
+#include <GL/glew.h>
 
 class ElementBuffer {
  private:
@@ -14,6 +14,7 @@ class ElementBuffer {
 
   void Bind();
   void Unbind();
+
   const unsigned int GetNumElementos();
 };
 

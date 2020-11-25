@@ -1,7 +1,7 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include "GL/glew.h"
+#include <GL/glew.h>
 
 #include "Scene.h"
 #include "Shader.h"

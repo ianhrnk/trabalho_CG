@@ -8,7 +8,7 @@ Renderer::Renderer(Shader *shader, Scene *scene)
 
 Renderer::~Renderer()
 {
-
+  // TODO
 }
 
 void Renderer::Draw()

@@ -30,12 +30,13 @@ class Model {
  public:
   Model(const std::string &shape, const std::string &name);
   ~Model();
+
   void Bind();
   void Unbind();
 
-  const unsigned int GetNumIndices();
   const std::string GetName();
   const glm::vec3 GetColor();
+  const unsigned int GetNumIndices();
 
   void SetColor(float v0, float v1, float v2);
 };

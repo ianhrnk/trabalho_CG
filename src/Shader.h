@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SHADER_H
+#define SHADER_H
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -24,6 +25,7 @@ class Shader
  public:
   Shader(const std::string &vertex_file, const std::string &fragment_file);
   ~Shader();
+
   void Bind();
   void Unbind();
   void InitMatrices();
@@ -37,3 +39,5 @@ class Shader
                     float v2, float v3);
   void SetUniformMatrix4fv(const std::string& name, glm::mat4 value);
 };
+
+#endif

@@ -1,7 +1,7 @@
 #ifndef VERTEXARRAY_H
 #define VERTEXARRAY_H
 
-#include "GL/glew.h"
+#include <GL/glew.h>
 
 #include "VertexBuffer.h"
 
