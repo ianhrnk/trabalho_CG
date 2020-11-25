@@ -36,7 +36,7 @@ void SceneObject::Init(const std::string shape)
   buffer.reserve(2 * vertices.size());
   std::vector<float>::iterator it_vertices = vertices.begin();
   std::vector<float>::iterator it_normais;
-  for (int i = 0; i < vertices_normal.size(); ++i)
+  for (unsigned int i = 0; i < vertices_normal.size(); ++i)
   {
     buffer.insert(buffer.end(), it_vertices, it_vertices + 3);
     it_vertices += 3;
