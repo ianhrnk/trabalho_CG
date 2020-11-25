@@ -17,12 +17,15 @@ class Scene {
   Scene();
   ~Scene();
 
+  std::vector<SceneObject*>::iterator SearchObject(const std::string &name);
+  std::vector<SceneObject*> GetObjects();
+
   void AddObject(const std::string &shape, const std::string &name);
   void RemoveObject(const std::string &name);
   void ChangeObjectColor(const std::string &name, glm::vec3 value);
+
+  void TranslateObject(const std::string &name, glm::vec3 value);
   void RotateObject(const std::string &name, float angle, glm::vec3 value);
-  std::vector<SceneObject*>::iterator SearchObject(const std::string &name);
-  std::vector<SceneObject*> GetObjects();
 
   bool GetShowWire();
   bool GetShowAxis();

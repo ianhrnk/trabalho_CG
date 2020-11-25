@@ -139,6 +139,11 @@ void SceneObject::Unbind()
   ebo->Unbind();
 }
 
+void SceneObject::Translate(glm::vec3 value)
+{
+  model_matrix = glm::translate(model_matrix, value);
+}
+
 void SceneObject::Rotate(float angle, glm::vec3 value)
 {
   model_matrix = glm::rotate(model_matrix, glm::radians(angle), value);

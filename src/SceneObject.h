@@ -37,6 +37,7 @@ class SceneObject {
   void Bind();
   void Unbind();
 
+  void Translate(glm::vec3 value);
   void Rotate(float angle, glm::vec3 value);
 
   const std::string GetName();

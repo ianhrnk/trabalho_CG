@@ -48,6 +48,13 @@ void Scene::ChangeObjectColor(const std::string &name, glm::vec3 value)
     (*it)->SetColor(value);
 }
 
+void Scene::TranslateObject(const std::string &name, glm::vec3 value)
+{
+  std::vector<SceneObject*>::iterator it = SearchObject(name);
+  if (it != objects.end())
+    (*it)->Translate(value);
+}
+
 void Scene::RotateObject(const std::string &name, float angle,
                          glm::vec3 value)
 {

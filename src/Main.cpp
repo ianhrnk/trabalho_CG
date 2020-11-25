@@ -71,6 +71,11 @@ int main(void)
         ss >> name >> value.x >> value.y >> value.z;
         scene.ChangeObjectColor(name, value);
       }
+      else if (comando == "translate")
+      {
+        ss >> name >> value.x >> value.y >> value.z;
+        scene.TranslateObject(name, value);
+      }
       else if (comando == "rotate")
       {
         float angle;
