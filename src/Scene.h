@@ -1,9 +1,6 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include <GL/glew.h>
-#include <vector>
-
 #include "Camera.h"
 #include "SceneObject.h"
 
@@ -15,11 +12,13 @@ class Scene {
   bool show_axis = false;
   bool show_wire = false;
 
+  std::vector<SceneObject*>::iterator it;
+
  public:
   Scene();
   ~Scene();
 
-  std::vector<SceneObject*>::iterator SearchObject(const std::string &name);
+  bool ObjectFound(const std::string &name);
   std::vector<SceneObject*> GetObjects();
 
   void AddObject(const std::string &shape, const std::string &name);

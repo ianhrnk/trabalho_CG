@@ -13,21 +13,20 @@ Scene::~Scene()
   delete axis;
 }
 
-std::vector<SceneObject*>::iterator
-Scene::SearchObject(const std::string &name)
-{
-  for (auto it = objects.begin(); it != objects.end(); it++)
-    if ((*it)->GetName() == name)
-      return it;
-  return objects.end();
-}
-
 std::vector<SceneObject*> Scene::GetObjects()
 { return objects; }
 
+bool Scene::ObjectFound(const std::string &name)
+{
+  for (it = objects.begin(); it != objects.end(); ++it)
+    if ((*it)->GetName() == name)
+      return true;
+  return false;
+}
+
 void Scene::AddObject(const std::string &shape, const std::string &name)
 {
-  if (SearchObject(name) == objects.end())
+  if (!ObjectFound(name))
   {
     SceneObject *object = new SceneObject(shape, name);
     objects.push_back(object);
@@ -36,45 +35,39 @@ void Scene::AddObject(const std::string &shape, const std::string &name)
 
 void Scene::RemoveObject(const std::string &name)
 {
-  std::vector<SceneObject*>::iterator it = SearchObject(name);
-  if (it != objects.end())
+  if (ObjectFound(name))
     objects.erase(it);
 }
 
 void Scene::ChangeObjectColor(const std::string &name, glm::vec3 value)
 {
-  std::vector<SceneObject*>::iterator it = SearchObject(name);
-  if (it != objects.end())
+  if (ObjectFound(name))
     (*it)->SetColor(value);
 }
 
 void Scene::TranslateObject(const std::string &name, glm::vec3 value)
 {
-  std::vector<SceneObject*>::iterator it = SearchObject(name);
-  if (it != objects.end())
+  if (ObjectFound(name))
     (*it)->Translate(value);
 }
 
 void Scene::ScaleObject(const std::string &name, glm::vec3 value)
 {
-  std::vector<SceneObject*>::iterator it = SearchObject(name);
-  if (it != objects.end())
+  if (ObjectFound(name))
     (*it)->Scale(value);
 }
 
 void Scene::ShearObject(const std::string &name, float v0, float v1,
                         float v2, float v3, float v4, float v5)
 {
-  std::vector<SceneObject*>::iterator it = SearchObject(name);
-  if (it != objects.end())
+  if (ObjectFound(name))
     (*it)->Shear(v0, v1, v2, v3, v4, v5);
 }
 
 void Scene::RotateObject(const std::string &name, float angle,
                          glm::vec3 value)
 {
-  std::vector<SceneObject*>::iterator it = SearchObject(name);
-  if (it != objects.end())
+  if (ObjectFound(name))
     (*it)->Rotate(angle, value);
 }
 
