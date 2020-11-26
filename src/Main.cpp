@@ -12,8 +12,6 @@ void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 int main(void)
 {
   GLFWwindow* window;
-  bool sair = false;
-  std::string entrada, comando;
 
   if (!glfwInit()) return -1;
 
@@ -43,6 +41,8 @@ int main(void)
   /* Loop until the user closes the window - Render section */
   while (!glfwWindowShouldClose(window))
   {
+    bool sair = false;
+    std::string entrada, comando;
     std::string name;
     glm::vec3 value;
 
