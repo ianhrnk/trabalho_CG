@@ -10,7 +10,7 @@ class Camera {
   glm::vec3 target = glm::vec3(0.0f, 0.0f, -1.0f);
   glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
   glm::mat4 view_matrix = glm::lookAt(position, target, up);
-  glm::mat4 projection_matrix = glm::ortho(-2.f, 2.f, -2.f, 2.f, 2.f, -2.f);
+  glm::mat4 projection_matrix = glm::ortho(-2.f, 2.f, -2.f, 2.f, -2.f, 2.f);
 
   void Refresh();
 
