@@ -22,7 +22,12 @@ void SceneObject::Init(const std::string shape)
 
   vao = new VertexArray();
   vbo = new VertexBuffer(obj.vertices.size(), obj.vertices.data());
-  vao->AddBuffer(vbo);
+
+  if (shape == "axis")
+    vao->AddBufferWithoutNormal(vbo);
+  else
+    vao->AddBuffer(vbo);
+
   ebo = new ElementBuffer(obj.indices.size(), obj.indices.data());
 
   vao->Unbind();

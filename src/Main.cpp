@@ -34,9 +34,8 @@ int main(void)
     std::cout << "Error!" << std::endl;
 
   /* Init section */
-  Shader shader("shader/main.vs", "shader/main.fs");
   Scene scene;
-  Renderer renderer(&shader, &scene);
+  Renderer renderer(&scene);
 
   /* Loop until the user closes the window - Render section */
   while (!glfwWindowShouldClose(window))
@@ -62,6 +61,16 @@ int main(void)
       {
         ss >> name;
         scene.RemoveObject(name);
+      }
+      else if (comando == "add_light")
+      {
+        ss >> name >> value.x >> value.y >> value.z;
+        scene.AddLight(name, value);
+      }
+      else if (comando == "remove_light")
+      {
+        ss >> name;
+        scene.RemoveLight(name);
       }
       else if (comando == "color")
       {
@@ -107,6 +116,14 @@ int main(void)
       else if (comando == "axis_off")
       {
         scene.SetAxis(false);
+      }
+      else if (comando == "lights_on")
+      {
+        scene.SetLights(true);
+      }
+      else if (comando == "lights_off")
+      {
+        scene.SetLights(false);
       }
       else if (comando == "wire_on")
       {

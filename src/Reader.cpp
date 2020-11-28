@@ -52,7 +52,7 @@ Object Reader::LoadObj(const std::string &shape)
             p1 = std::stoul(temp.substr(0, temp.find("//")), nullptr, 10);
             p2 = std::stoul(temp.substr(temp.find("//")+2, temp.length()), nullptr, 10);
             obj.indices.push_back(p1-1);
-            v_n.insert(std::pair<unsigned int, unsigned int>(p1-1, p2-1));
+            v_n[p1-1] = p2-1;
           }
         }
         else if (line_header == "#")
@@ -102,11 +102,10 @@ Object Reader::CreateAxis()
   Object axis;
   axis.shape = "axis";
   axis.vertices = {
-    // Vertices e normais (zeradas)
-    0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-    2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-    0.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-    0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f
+    0.0f, 0.0f, 0.0f,
+    2.0f, 0.0f, 0.0f,
+    0.0f, 2.0f, 0.0f,
+    0.0f, 0.0f, 2.0f
   };
   axis.indices = {
     0, 1, 2, 0, 0, 3

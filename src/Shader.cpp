@@ -1,6 +1,7 @@
 #include "Shader.h"
 
-Shader::Shader(const std::string &vertex_file, const std::string &fragment_file) {
+Shader::Shader(const std::string &vertex_file, const std::string &fragment_file)
+{
   unsigned int vertex_shader = 0;
   unsigned int fragment_shader = 0;
 
@@ -17,7 +18,8 @@ Shader::~Shader() {
   glDeleteProgram(this->id);
 }
 
-std::string Shader::LoadShaderSource(const std::string &filename) {
+std::string Shader::LoadShaderSource(const std::string &filename)
+{
   std::string temp = "";
   std::string src = "";
 
@@ -39,7 +41,8 @@ std::string Shader::LoadShaderSource(const std::string &filename) {
   return src;
 }
 
-unsigned int Shader::LoadAndCompileShader(GLenum type, const std::string &filename) {
+unsigned int Shader::LoadAndCompileShader(GLenum type, const std::string &filename)
+{
   char info_log[512];
   int success;
 
@@ -60,7 +63,8 @@ unsigned int Shader::LoadAndCompileShader(GLenum type, const std::string &filena
   return shader;
 }
 
-void Shader::LinkShaderProgram(unsigned int vertex_shader, unsigned int fragment_shader) {
+void Shader::LinkShaderProgram(unsigned int vertex_shader, unsigned int fragment_shader)
+{
   char info_log[512];
   int success;
 
@@ -91,7 +95,8 @@ void Shader::Unbind()
   glUseProgram(0);
 }
 
-int Shader::GetUniformLocation(const std::string& name) {
+int Shader::GetUniformLocation(const std::string& name)
+{
   int location = glGetUniformLocation(this->id, name.c_str());
   if (location == -1)
     std::cout << "Uniform " << name << " not found!\n";

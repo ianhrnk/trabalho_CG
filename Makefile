@@ -3,8 +3,9 @@ CXXFLAGS = -lGLEW -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -Wall
 
 BIN := Main
 OBJ_DIR = build
-OBJ = $(OBJ_DIR)/Camera.o $(OBJ_DIR)/ElementBuffer.o $(OBJ_DIR)/Main.o $(OBJ_DIR)/Reader.o \
-	  $(OBJ_DIR)/SceneObject.o $(OBJ_DIR)/Scene.o $(OBJ_DIR)/Shader.o $(OBJ_DIR)/Renderer.o \
+OBJ = $(OBJ_DIR)/Camera.o $(OBJ_DIR)/ElementBuffer.o $(OBJ_DIR)/Light.o \
+	  $(OBJ_DIR)/Main.o $(OBJ_DIR)/Reader.o $(OBJ_DIR)/SceneObject.o \
+	  $(OBJ_DIR)/Scene.o $(OBJ_DIR)/Shader.o $(OBJ_DIR)/Renderer.o \
 	  $(OBJ_DIR)/VertexArray.o $(OBJ_DIR)/VertexBuffer.o
 
 all: criar_pasta_obj $(BIN)
@@ -24,6 +25,10 @@ $(OBJ_DIR)/Main.o: src/Main.cpp src/Renderer.h
 	@echo Compilando $<
 	@$(CXX) -c $< $(CXXFLAGS) -o $@
 
+$(OBJ_DIR)/Light.o: src/Light.cpp src/Light.h src/VertexArray.h src/VertexBuffer.h
+	@echo Compilando $<
+	@$(CXX) -c $< $(CXXFLAGS) -o $@
+
 $(OBJ_DIR)/Reader.o: src/Reader.cpp src/Reader.h
 	@echo Compilando $<
 	@$(CXX) -c $< $(CXXFLAGS) -o $@
@@ -32,7 +37,8 @@ $(OBJ_DIR)/Renderer.o: src/Renderer.cpp src/Renderer.h src/Scene.h src/Shader.h
 	@echo Compilando $<
 	@$(CXX) -c $< $(CXXFLAGS) -o $@
 
-$(OBJ_DIR)/Scene.o: src/Scene.cpp src/Scene.h src/Camera.h src/SceneObject.h
+$(OBJ_DIR)/Scene.o: src/Scene.cpp src/Scene.h src/Camera.h src/Light.h \
+					src/SceneObject.h
 	@echo Compilando $<
 	@$(CXX) -c $< $(CXXFLAGS) -o $@
 

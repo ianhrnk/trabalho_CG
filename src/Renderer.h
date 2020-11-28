@@ -7,14 +7,16 @@
 class Renderer {
  private:
   Scene *scene = nullptr;
-  Shader *shader = nullptr;
+  std::map<std::string, Shader*> shader;
 
+  void CreateShaders();
   void DrawAxis();
   void DrawObjects();
+  void DrawLights();
 
  public:
-  Renderer(Shader *shader, Scene *scene);
-  ~Renderer() = default;
+  Renderer(Scene *scene);
+  ~Renderer();
 
   void Draw();
 };

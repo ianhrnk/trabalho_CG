@@ -16,6 +16,7 @@ class VertexArray {
   void Bind();
   void Unbind();
   void AddBuffer(VertexBuffer* vbo);
+  void AddBufferWithoutNormal(VertexBuffer* vbo);
 };
 
 #endif

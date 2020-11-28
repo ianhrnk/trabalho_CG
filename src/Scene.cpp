@@ -7,19 +7,43 @@ Scene::Scene()
 
 Scene::~Scene()
 {
-  for (auto it = objects.begin(); it != objects.end(); it++)
-    delete *it;
-  objects.clear();
+  DeleteObjects();
+  DeleteLights();
   delete axis;
 }
 
-std::vector<SceneObject*> Scene::GetObjects()
+void Scene::DeleteObjects()
+{
+  for (auto it : objects)
+    delete it;
+  objects.clear();
+}
+
+void Scene::DeleteLights()
+{
+  for (auto it : lights)
+    delete it;
+  lights.clear();
+}
+
+const std::vector<SceneObject*>& Scene::GetObjects() const
 { return objects; }
+
+const std::vector<Light*>& Scene::GetLights() const
+{ return lights; }
 
 bool Scene::ObjectFound(const std::string &name)
 {
-  for (it = objects.begin(); it != objects.end(); ++it)
-    if ((*it)->GetName() == name)
+  for (it_object = objects.begin(); it_object != objects.end(); ++it_object)
+    if ((*it_object)->GetName() == name)
+      return true;
+  return false;
+}
+
+bool Scene::LightFound(const std::string &name)
+{
+  for (it_light = lights.begin(); it_light != lights.end(); ++it_light)
+    if ((*it_light)->GetName() == name)
       return true;
   return false;
 }
@@ -36,39 +60,60 @@ void Scene::AddObject(const std::string &shape, const std::string &name)
 void Scene::RemoveObject(const std::string &name)
 {
   if (ObjectFound(name))
-    objects.erase(it);
+  {
+    delete (*it_object);
+    objects.erase(it_object);
+  }
 }
 
 void Scene::ChangeObjectColor(const std::string &name, glm::vec3 value)
 {
   if (ObjectFound(name))
-    (*it)->SetColor(value);
+    (*it_object)->SetColor(value);
 }
 
 void Scene::TranslateObject(const std::string &name, glm::vec3 value)
 {
   if (ObjectFound(name))
-    (*it)->Translate(value);
+    (*it_object)->Translate(value);
 }
 
 void Scene::ScaleObject(const std::string &name, glm::vec3 value)
 {
   if (ObjectFound(name))
-    (*it)->Scale(value);
+    (*it_object)->Scale(value);
 }
 
 void Scene::ShearObject(const std::string &name, float v0, float v1,
                         float v2, float v3, float v4, float v5)
 {
   if (ObjectFound(name))
-    (*it)->Shear(v0, v1, v2, v3, v4, v5);
+    (*it_object)->Shear(v0, v1, v2, v3, v4, v5);
 }
 
 void Scene::RotateObject(const std::string &name, float angle,
                          glm::vec3 value)
 {
   if (ObjectFound(name))
-    (*it)->Rotate(angle, value);
+    (*it_object)->Rotate(angle, value);
+}
+
+void Scene::AddLight(const std::string &name, glm::vec3 position)
+{
+  if (!LightFound(name))
+  {
+    Light* light = new Light(name, position);
+    lights.push_back(light);
+  }
+}
+
+void Scene::RemoveLight(const std::string &name)
+{
+  if (LightFound(name))
+  {
+    delete (*it_light);
+    lights.erase(it_light);
+  }
 }
 
 Camera Scene::GetCamera()
@@ -80,11 +125,17 @@ SceneObject* Scene::GetAxis()
 bool Scene::ShowAxis()
 { return show_axis; }
 
+bool Scene::ShowLights()
+{ return show_lights; }
+
 bool Scene::ShowWire()
 { return show_wire; }
 
 void Scene::SetAxis(bool on_off)
 { show_axis = on_off; }
+
+void Scene::SetLights(bool on_off)
+{ show_lights = on_off; }
 
 void Scene::SetWire(bool on_off)
 { show_wire = on_off; }
