@@ -20,7 +20,7 @@ void Renderer::CreateShaders()
   shader[light] = new Shader("shader/light.vs", "shader/light.fs");
   shader[smooth] = new Shader("shader/smooth.vs", "shader/smooth.fs");
   shader[flat] = new Shader("shader/flat.vs", "shader/flat.fs");
-  shader[phong] = new Shader("shader/phong.vs", "shader/phong.fp");
+  shader[phong] = new Shader("shader/phong.vs", "shader/phong.fs");
 }
 
 void Renderer::Draw()
