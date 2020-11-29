@@ -129,7 +129,8 @@ int main(void)
           break;
 
         case save:
-          // TODO
+          ss >> name;
+          renderer.SaveScreenshot(name);
           break;
 
         case translate:

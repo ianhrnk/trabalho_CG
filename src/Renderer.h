@@ -35,6 +35,7 @@ class Renderer {
   void SetShading(const std::string &type);
 
   void Draw();
+  void SaveScreenshot(const std::string &filename);
 };
 
 #endif
