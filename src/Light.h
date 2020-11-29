@@ -30,6 +30,7 @@ class Light {
 
   std::string GetName();
   glm::vec3 GetPosition();
+
   static float GetKAmbient();
   static float GetKDiffuse();
   static float GetKSpecular();
