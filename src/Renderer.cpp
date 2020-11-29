@@ -27,6 +27,7 @@ void Renderer::Draw()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glEnable(GL_DEPTH_TEST);
+  glProvokingVertex(GL_FIRST_VERTEX_CONVENTION); // Necessário p/ flat shading
 
   if (show_axis)
     DrawAxis();
