@@ -23,7 +23,7 @@ float CalcPointLight(vec3 light_pos, vec3 frag_pos, vec3 normal, vec3 view_dir);
 void main()
 {
   vec3 fragment_position = mat3(model) * vertex_position;
-  vec3 normal = mat3(transpose(inverse(model))) * vertex_normal;
+  vec3 normal = normalize(mat3(transpose(inverse(model))) * vertex_normal);
   vec3 view_direction = normalize(view_position - fragment_position);
   vec3 result = vec3(0.0);
 
