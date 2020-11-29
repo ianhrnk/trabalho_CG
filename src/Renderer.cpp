@@ -19,14 +19,15 @@ void Renderer::CreateShaders()
   shader[none] = new Shader("shader/none.vs", "shader/none.fs");
   shader[light] = new Shader("shader/light.vs", "shader/light.fs");
   shader[smooth] = new Shader("shader/smooth.vs", "shader/smooth.fs");
-  //shader[flat] = new Shader("shader/flat.vs", "shader/flat.fs");
-  //shader[phong] = new Shader("shader/phong.vs", "shader/phong.fp");
+  shader[flat] = new Shader("shader/flat.vs", "shader/flat.fs");
+  shader[phong] = new Shader("shader/phong.vs", "shader/phong.fp");
 }
 
 void Renderer::Draw()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glEnable(GL_DEPTH_TEST);
+  glProvokingVertex(GL_FIRST_VERTEX_CONVENTION); // Necessário p/ flat shading
 
   if (show_axis)
     DrawAxis();
