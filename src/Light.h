@@ -11,10 +11,13 @@ class Light {
  private:
   std::string name;
   glm::vec3 position;
-  glm::vec3 color = glm::vec3(1.0f);
 
   VertexArray *vao = nullptr;
   VertexBuffer *vbo = nullptr;
+
+  static float k_ambient;
+  static float k_diffuse;
+  static float k_specular;
 
   void Init();
 
@@ -27,7 +30,13 @@ class Light {
 
   std::string GetName();
   glm::vec3 GetPosition();
-  glm::vec3 GetColor();
+  static float GetKAmbient();
+  static float GetKDiffuse();
+  static float GetKSpecular();
+
+  static void SetKAmbient(float k);
+  static void SetKDiffuse(float k);
+  static void SetKSpecular(float k);
 };
 
 #endif

@@ -15,10 +15,12 @@ Renderer::~Renderer()
 
 void Renderer::CreateShaders()
 {
-  shader["axis"] = new Shader("shader/axis.vs", "shader/axis.fs");
-  shader["none"] = new Shader("shader/none.vs", "shader/none.fs");
-  shader["light"] = new Shader("shader/light.vs", "shader/light.fs");
-  shader["phong"] = new Shader("shader/phong.vs", "shader/phong.fs");
+  shader[axis] = new Shader("shader/axis.vs", "shader/axis.fs");
+  shader[none] = new Shader("shader/none.vs", "shader/none.fs");
+  shader[light] = new Shader("shader/light.vs", "shader/light.fs");
+  shader[smooth] = new Shader("shader/smooth.vs", "shader/smooth.fs");
+  //shader[flat] = new Shader("shader/flat.vs", "shader/flat.fs");
+  //shader[phong] = new Shader("shader/phong.vs", "shader/phong.fp");
 }
 
 void Renderer::Draw()
@@ -26,93 +28,44 @@ void Renderer::Draw()
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glEnable(GL_DEPTH_TEST);
 
-  if (scene->ShowAxis())
+  if (show_axis)
     DrawAxis();
 
-  if (scene->ShowLights())
+  if (show_lights)
     DrawLights();
 
-  if (scene->ShowNone())
-    DrawObjectsNone();
-
-  if (scene->ShowPhong())
-    DrawObjectsPhong();
+  DrawObjects();
 }
 
 void Renderer::DrawAxis()
 {
-  SceneObject* axis = scene->GetAxis();
-  shader["axis"]->Bind();
-  axis->Bind();
+  Camera camera = scene->GetCamera();
+  SceneObject* _axis = scene->GetAxis();
+  shader[axis]->Bind();
+  _axis->Bind();
 
-  shader["axis"]->SetUniformMatrix4fv("view", scene->GetCamera().GetViewMatrix());
-  shader["axis"]->SetUniformMatrix4fv("projection", scene->GetCamera().GetProjectionMatrix());
-  shader["axis"]->SetUniformMatrix4fv("model", axis->GetModelMatrix());
+  shader[axis]->SetUniformMatrix4fv("view", camera.GetViewMatrix());
+  shader[axis]->SetUniformMatrix4fv("projection", camera.GetProjectionMatrix());
+  shader[axis]->SetUniformMatrix4fv("model", _axis->GetModelMatrix());
 
-  shader["axis"]->SetUniform3f("color", 1.0f, 0.0f, 0.0f);
-  glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, nullptr);
-  shader["axis"]->SetUniform3f("color", 0.0f, 1.0f, 0.0f);
-  glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, (const void*)8);
-  shader["axis"]->SetUniform3f("color", 0.0f, 0.0f, 1.0f);
-  glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, (const void*)16);
+  shader[axis]->SetUniform3f("color", 1.0f, 0.0f, 0.0f);
+  glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, 0);
+  shader[axis]->SetUniform3f("color", 0.0f, 1.0f, 0.0f);
+  glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, (const void *)(2 * sizeof(unsigned int)));
+  shader[axis]->SetUniform3f("color", 0.0f, 0.0f, 1.0f);
+  glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, (const void*)(4 * sizeof(unsigned int)));
 
-  axis->Unbind();
-  shader["axis"]->Unbind();
-}
-
-void Renderer::DrawObjectsNone()
-{
-  shader["none"]->Bind();
-
-  shader["none"]->SetUniformMatrix4fv("view", scene->GetCamera().GetViewMatrix());
-  shader["none"]->SetUniformMatrix4fv("projection", scene->GetCamera().GetProjectionMatrix());
-
-  unsigned int mode = (scene->ShowWire() ? GL_LINE_STRIP : GL_TRIANGLES);
-  std::vector<SceneObject*> objects = scene->GetObjects();
-
-  for (auto it = objects.begin(); it != objects.end(); it++)
-  {
-    (*it)->Bind();
-    shader["none"]->SetUniformMatrix4fv("model", (*it)->GetModelMatrix());
-    shader["none"]->SetUniform3f("color", (*it)->GetColor());
-    glDrawElements(mode, (*it)->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
-    (*it)->Unbind();
-  }
-
-  shader["none"]->Unbind();
-}
-
-void Renderer::DrawObjectsPhong()
-{
-  shader["phong"]->Bind();
-
-  shader["phong"]->SetUniformMatrix4fv("view", scene->GetCamera().GetViewMatrix());
-  shader["phong"]->SetUniformMatrix4fv("projection", scene->GetCamera().GetProjectionMatrix());
-  shader["phong"]->SetUniform3f("view_position", scene->GetCamera().GetPosition());
-
-  unsigned int mode = (scene->ShowWire() ? GL_LINE_STRIP : GL_TRIANGLES);
-  std::vector<SceneObject*> objects = scene->GetObjects();
-  std::vector<Light*> lights = scene->GetLights();
-
-  shader["phong"]->SetUniform3f("light_position", lights[0]->GetPosition());
-  shader["phong"]->SetUniform3f("light_color", lights[0]->GetColor());
-
-  for (auto it = objects.begin(); it != objects.end(); it++)
-  {
-      (*it)->Bind();
-      shader["phong"]->SetUniformMatrix4fv("model", (*it)->GetModelMatrix());
-      shader["phong"]->SetUniform3f("object_color", (*it)->GetColor());
-      glDrawElements(mode, (*it)->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
-      (*it)->Unbind();
-  }
+  _axis->Unbind();
+  shader[axis]->Unbind();
 }
 
 void Renderer::DrawLights()
 {
-  shader["light"]->Bind();
+  Camera camera = scene->GetCamera();
+  shader[light]->Bind();
 
-  shader["light"]->SetUniformMatrix4fv("view", scene->GetCamera().GetViewMatrix());
-  shader["light"]->SetUniformMatrix4fv("projection", scene->GetCamera().GetProjectionMatrix());
+  shader[light]->SetUniformMatrix4fv("view", camera.GetViewMatrix());
+  shader[light]->SetUniformMatrix4fv("projection", camera.GetProjectionMatrix());
 
   std::vector<Light*> lights = scene->GetLights();
   for (auto it = lights.begin(); it != lights.end(); it++)
@@ -122,5 +75,82 @@ void Renderer::DrawLights()
     (*it)->Unbind();
   }
 
-  shader["light"]->Unbind();
+  shader[light]->Unbind();
+}
+
+void Renderer::DrawObjects()
+{
+  Shader* _shader = shader[shading];
+  _shader->Bind();
+  SetUniforms(_shader);
+
+  unsigned int mode = (show_wire ? GL_LINE_STRIP : GL_TRIANGLES);
+  std::vector<SceneObject*> objects = scene->GetObjects();
+
+  for (auto it = objects.begin(); it != objects.end(); it++)
+  {
+    (*it)->Bind();
+    _shader->SetUniformMatrix4fv("model", (*it)->GetModelMatrix());
+    _shader->SetUniform3f("object_color", (*it)->GetColor());
+    glDrawElements(mode, (*it)->GetNumIndices(), GL_UNSIGNED_INT, 0);
+    (*it)->Unbind();
+  }
+
+  _shader->Unbind();
+}
+
+void Renderer::SetUniforms(Shader* shader)
+{
+  Camera camera = scene->GetCamera();
+  shader->SetUniformMatrix4fv("view", camera.GetViewMatrix());
+  shader->SetUniformMatrix4fv("projection", camera.GetProjectionMatrix());
+
+  if (shading != none)
+  {
+    std::vector<Light*> lights = scene->GetLights();
+    int index = 0;
+
+    shader->SetUniform3f("view_position", camera.GetPosition());
+    shader->SetUniform1f("k_ambient", Light::GetKAmbient());
+    shader->SetUniform1f("k_diffuse", Light::GetKDiffuse());
+    shader->SetUniform1f("k_specular", Light::GetKSpecular());
+    shader->SetUniform1i("num_lights", lights.size());
+
+    for (auto it : lights)
+    {
+      shader->SetUniform3f("lights_positions[" + std::to_string(index) + "]", it->GetPosition());
+      index++;
+    }
+  }
+}
+
+void Renderer::SetAxis(bool on_off)
+{ show_axis = on_off; }
+
+void Renderer::SetLights(bool on_off)
+{ show_lights = on_off; }
+
+void Renderer::SetWire(bool on_off)
+{ show_wire = on_off; }
+
+void Renderer::SetReflection(const std::string &type, float k)
+{
+  if (type == "ambient")
+    Light::SetKAmbient(k);
+  else if (type == "diffuse")
+    Light::SetKDiffuse(k);
+  else if (type == "specular")
+    Light::SetKSpecular(k);
+}
+
+void Renderer::SetShading(const std::string &type)
+{
+  if (type == "none")
+    shading = none;
+  else if (type == "smooth")
+    shading = smooth;
+  else if (type == "flat")
+    shading = flat;
+  else if (type == "phong")
+    shading = phong;
 }

@@ -1,5 +1,9 @@
 #include "Light.h"
 
+float Light::k_ambient = 0.2f;
+float Light::k_diffuse = 0.2f;
+float Light::k_specular = 0.2f;
+
 Light::Light(const std::string &name, glm::vec3 position)
 {
   this->name = name;
@@ -43,5 +47,20 @@ std::string Light::GetName()
 glm::vec3 Light::GetPosition()
 { return position; }
 
-glm::vec3 Light::GetColor()
-{ return color; }
+float Light::GetKAmbient()
+{ return k_ambient; }
+
+float Light::GetKDiffuse()
+{ return k_diffuse; }
+
+float Light::GetKSpecular()
+{ return k_specular; }
+
+void Light::SetKAmbient(float k)
+{ Light::k_ambient = k; }
+
+void Light::SetKDiffuse(float k)
+{ Light::k_diffuse = k; }
+
+void Light::SetKSpecular(float k)
+{ Light::k_specular = k; }

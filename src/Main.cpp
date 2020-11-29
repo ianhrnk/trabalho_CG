@@ -42,7 +42,7 @@ int main(void)
   {
     bool sair = false;
     std::string entrada, comando;
-    std::string name;
+    std::string name, type;
     glm::vec3 value;
 
     while (!sair)
@@ -72,20 +72,22 @@ int main(void)
         ss >> name;
         scene.RemoveLight(name);
       }
+      else if (comando == "reflection_on")
+      {
+        float k;
+        ss >> type >> k;
+
+        renderer.SetReflection(type, k);
+      }
+      else if (comando == "reflection_off")
+      {
+        ss >> type;
+        renderer.SetReflection(type, 0.0f);
+      }
       else if (comando == "shading")
       {
-        std::string type;
         ss >> type;
-        if (type == "none")
-        {
-          scene.SetNone(true);
-          scene.SetPhong(false);
-        }
-        else if (type == "phong")
-        {
-          scene.SetNone(false);
-          scene.SetPhong(true);
-        }
+        renderer.SetShading(type);
       }
       else if (comando == "color")
       {
@@ -126,27 +128,27 @@ int main(void)
       }
       else if (comando == "axis_on")
       {
-        scene.SetAxis(true);
+        renderer.SetAxis(true);
       }
       else if (comando == "axis_off")
       {
-        scene.SetAxis(false);
+        renderer.SetAxis(false);
       }
       else if (comando == "lights_on")
       {
-        scene.SetLights(true);
+        renderer.SetLights(true);
       }
       else if (comando == "lights_off")
       {
-        scene.SetLights(false);
+        renderer.SetLights(false);
       }
       else if (comando == "wire_on")
       {
-        scene.SetWire(true);
+        renderer.SetWire(true);
       }
       else if (comando == "wire_off")
       {
-        scene.SetWire(false);
+        renderer.SetWire(false);
       }
       else if (comando == "quit")
       {

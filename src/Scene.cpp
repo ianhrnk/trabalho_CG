@@ -100,7 +100,7 @@ void Scene::RotateObject(const std::string &name, float angle,
 
 void Scene::AddLight(const std::string &name, glm::vec3 position)
 {
-  if (!LightFound(name))
+  if (!LightFound(name) && lights.size() < 10)
   {
     Light* light = new Light(name, position);
     lights.push_back(light);
@@ -121,36 +121,6 @@ Camera Scene::GetCamera()
 
 SceneObject* Scene::GetAxis()
 { return axis; }
-
-bool Scene::ShowAxis()
-{ return show_axis; }
-
-bool Scene::ShowLights()
-{ return show_lights; }
-
-bool Scene::ShowWire()
-{ return show_wire; }
-
-bool Scene::ShowNone()
-{ return show_none; }
-
-bool Scene::ShowPhong()
-{ return show_phong; }
-
-void Scene::SetAxis(bool on_off)
-{ show_axis = on_off; }
-
-void Scene::SetLights(bool on_off)
-{ show_lights = on_off; }
-
-void Scene::SetWire(bool on_off)
-{ show_wire = on_off; }
-
-void Scene::SetNone(bool on_off)
-{ show_none = on_off; }
-
-void Scene::SetPhong(bool on_off)
-{ show_phong = on_off; }
 
 void Scene::SetCameraPosition(glm::vec3 value)
 { camera.SetPosition(value); }
