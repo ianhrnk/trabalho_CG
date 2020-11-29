@@ -131,6 +131,12 @@ bool Scene::ShowLights()
 bool Scene::ShowWire()
 { return show_wire; }
 
+bool Scene::ShowNone()
+{ return show_none; }
+
+bool Scene::ShowPhong()
+{ return show_phong; }
+
 void Scene::SetAxis(bool on_off)
 { show_axis = on_off; }
 
@@ -139,6 +145,12 @@ void Scene::SetLights(bool on_off)
 
 void Scene::SetWire(bool on_off)
 { show_wire = on_off; }
+
+void Scene::SetNone(bool on_off)
+{ show_none = on_off; }
+
+void Scene::SetPhong(bool on_off)
+{ show_phong = on_off; }
 
 void Scene::SetCameraPosition(glm::vec3 value)
 { camera.SetPosition(value); }

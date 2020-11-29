@@ -15,6 +15,8 @@ class Scene {
   bool show_axis = false;
   bool show_lights = false;  // Não tá definido
   bool show_wire = false;
+  bool show_none = true;
+  bool show_phong = false;
 
   std::vector<SceneObject*>::iterator it_object;
   std::vector<Light*>::iterator it_light;
@@ -49,10 +51,15 @@ class Scene {
   bool ShowAxis();
   bool ShowWire();
   bool ShowLights();
+  bool ShowNone();
+  bool ShowPhong();
 
   void SetAxis(bool on_off);
   void SetLights(bool on_off);
   void SetWire(bool on_off);
+  void SetNone(bool on_off);
+  void SetPhong(bool on_off);
+
   void SetCameraPosition(glm::vec3 value);
   void SetCameraLookAt(glm::vec3 value);
 };

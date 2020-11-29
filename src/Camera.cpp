@@ -6,6 +6,9 @@ glm::mat4 Camera::GetViewMatrix()
 glm::mat4 Camera::GetProjectionMatrix()
 { return projection_matrix; }
 
+glm::vec3 Camera::GetPosition()
+{ return position; }
+
 void Camera::SetPosition(glm::vec3 value)
 {
   position = value;

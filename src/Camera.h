@@ -20,6 +20,7 @@ class Camera {
 
   glm::mat4 GetViewMatrix();
   glm::mat4 GetProjectionMatrix();
+  glm::vec3 GetPosition();
 
   void SetPosition(glm::vec3 value);
   void SetTarget(glm::vec3 value);

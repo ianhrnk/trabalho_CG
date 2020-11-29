@@ -18,6 +18,7 @@ void Renderer::CreateShaders()
   shader["axis"] = new Shader("shader/axis.vs", "shader/axis.fs");
   shader["none"] = new Shader("shader/none.vs", "shader/none.fs");
   shader["light"] = new Shader("shader/light.vs", "shader/light.fs");
+  shader["phong"] = new Shader("shader/phong.vs", "shader/phong.fs");
 }
 
 void Renderer::Draw()
@@ -31,7 +32,11 @@ void Renderer::Draw()
   if (scene->ShowLights())
     DrawLights();
 
-  DrawObjects();
+  if (scene->ShowNone())
+    DrawObjectsNone();
+
+  if (scene->ShowPhong())
+    DrawObjectsPhong();
 }
 
 void Renderer::DrawAxis()
@@ -55,7 +60,7 @@ void Renderer::DrawAxis()
   shader["axis"]->Unbind();
 }
 
-void Renderer::DrawObjects()
+void Renderer::DrawObjectsNone()
 {
   shader["none"]->Bind();
 
@@ -75,6 +80,31 @@ void Renderer::DrawObjects()
   }
 
   shader["none"]->Unbind();
+}
+
+void Renderer::DrawObjectsPhong()
+{
+  shader["phong"]->Bind();
+
+  shader["phong"]->SetUniformMatrix4fv("view", scene->GetCamera().GetViewMatrix());
+  shader["phong"]->SetUniformMatrix4fv("projection", scene->GetCamera().GetProjectionMatrix());
+  shader["phong"]->SetUniform3f("view_position", scene->GetCamera().GetPosition());
+
+  unsigned int mode = (scene->ShowWire() ? GL_LINE_STRIP : GL_TRIANGLES);
+  std::vector<SceneObject*> objects = scene->GetObjects();
+  std::vector<Light*> lights = scene->GetLights();
+
+  shader["phong"]->SetUniform3f("light_position", lights[0]->GetPosition());
+  shader["phong"]->SetUniform3f("light_color", lights[0]->GetColor());
+
+  for (auto it = objects.begin(); it != objects.end(); it++)
+  {
+      (*it)->Bind();
+      shader["phong"]->SetUniformMatrix4fv("model", (*it)->GetModelMatrix());
+      shader["phong"]->SetUniform3f("object_color", (*it)->GetColor());
+      glDrawElements(mode, (*it)->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
+      (*it)->Unbind();
+  }
 }
 
 void Renderer::DrawLights()

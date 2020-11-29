@@ -39,3 +39,9 @@ void Light::Unbind()
 
 std::string Light::GetName()
 { return name; }
+
+glm::vec3 Light::GetPosition()
+{ return position; }
+
+glm::vec3 Light::GetColor()
+{ return color; }

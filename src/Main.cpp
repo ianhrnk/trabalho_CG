@@ -72,6 +72,21 @@ int main(void)
         ss >> name;
         scene.RemoveLight(name);
       }
+      else if (comando == "shading")
+      {
+        std::string type;
+        ss >> type;
+        if (type == "none")
+        {
+          scene.SetNone(true);
+          scene.SetPhong(false);
+        }
+        else if (type == "phong")
+        {
+          scene.SetNone(false);
+          scene.SetPhong(true);
+        }
+      }
       else if (comando == "color")
       {
         ss >> name >> value.x >> value.y >> value.z;

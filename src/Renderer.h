@@ -11,7 +11,8 @@ class Renderer {
 
   void CreateShaders();
   void DrawAxis();
-  void DrawObjects();
+  void DrawObjectsNone();
+  void DrawObjectsPhong();
   void DrawLights();
 
  public:

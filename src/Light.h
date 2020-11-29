@@ -11,6 +11,7 @@ class Light {
  private:
   std::string name;
   glm::vec3 position;
+  glm::vec3 color = glm::vec3(1.0f);
 
   VertexArray *vao = nullptr;
   VertexBuffer *vbo = nullptr;
@@ -25,6 +26,8 @@ class Light {
   void Unbind();
 
   std::string GetName();
+  glm::vec3 GetPosition();
+  glm::vec3 GetColor();
 };
 
 #endif
