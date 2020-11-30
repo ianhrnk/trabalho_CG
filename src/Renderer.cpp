@@ -75,6 +75,7 @@ void Renderer::DrawLights()
   shader[light]->SetUniformMatrix4fv("projection", camera.GetProjectionMatrix());
 
   std::vector<Light*> lights = scene->GetLights();
+  glPointSize(5.0);
   for (auto it = lights.begin(); it != lights.end(); it++)
   {
     (*it)->Bind();
