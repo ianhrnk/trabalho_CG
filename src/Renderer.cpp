@@ -53,7 +53,6 @@ void Renderer::DrawAxis()
 
   shader[axis]->SetUniformMatrix4fv("view", camera.GetViewMatrix());
   shader[axis]->SetUniformMatrix4fv("projection", camera.GetProjectionMatrix());
-  shader[axis]->SetUniformMatrix4fv("model", _axis->GetModelMatrix());
 
   shader[axis]->SetUniform3f("color", 1.0f, 0.0f, 0.0f);
   glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, 0);
