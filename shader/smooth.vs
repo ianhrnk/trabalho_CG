@@ -25,11 +25,14 @@ void main()
   vec3 fragment_position = mat3(model) * vertex_position;
   vec3 normal = normalize(mat3(transpose(inverse(model))) * vertex_normal);
   vec3 view_direction = normalize(view_position - fragment_position);
-  vec3 result = vec3(0.0);
+  float result = 0.0;
 
   for (int i = 0; i < num_lights; ++i)
     result += CalcPointLight(lights_positions[i], fragment_position,
             normal, view_direction);
+
+  // Ambiente
+  result += k_ambient;
 
   color = result * object_color;
   gl_Position = projection * view * model * vec4(vertex_position, 1.0);
@@ -41,9 +44,6 @@ float CalcPointLight(vec3 light_pos, vec3 frag_pos, vec3 normal, vec3 view_dir)
   float distance = length(light_pos - frag_pos);
   float light_intensity = 1.0 / (1.0 + 1.0 * distance + 0.25 * (distance * distance));
 
-  // Ambiente
-  float ambient = k_ambient;
-
   // Difusa
   vec3 light_direction = normalize(light_pos - frag_pos);
   float l_n = max(dot(normal, light_direction), 0.0);
@@ -54,5 +54,5 @@ float CalcPointLight(vec3 light_pos, vec3 frag_pos, vec3 normal, vec3 view_dir)
   float v_r = pow(max(dot(view_dir, reflection_direction), 0.0), 32);
   float specular = k_specular * light_intensity * v_r;
 
-  return (ambient + diffuse + specular);
+  return (diffuse + specular);
 }
