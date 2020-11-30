@@ -37,7 +37,7 @@ float CalcPointLight(vec3 light_pos, vec3 frag_pos, vec3 normal, vec3 view_dir)
   float light_intensity = 1.0 / (1.0 + 1.0 * distancia + 0.25 * (distancia * distancia));
 
   // Ambiente
-  float ambient = k_ambient * light_intensity;
+  float ambient = k_ambient;
 
   // Difusa
   vec3 light_direction = normalize(light_pos - frag_pos);
