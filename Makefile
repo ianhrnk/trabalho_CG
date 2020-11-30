@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -lGLEW -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -Wall
+CXXFLAGS = -std=c++14 -lGLEW -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -Wall
 
 BIN := Main
 OBJ_DIR = build
