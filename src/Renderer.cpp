@@ -57,7 +57,7 @@ void Renderer::DrawAxis()
   shader[axis]->SetUniform3f("color", 1.0f, 0.0f, 0.0f);
   glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, 0);
   shader[axis]->SetUniform3f("color", 0.0f, 1.0f, 0.0f);
-  glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, (const void *)(2 * sizeof(unsigned int)));
+  glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, (const void*)(2 * sizeof(unsigned int)));
   shader[axis]->SetUniform3f("color", 0.0f, 0.0f, 1.0f);
   glDrawElements(GL_LINES, 2, GL_UNSIGNED_INT, (const void*)(4 * sizeof(unsigned int)));
 

@@ -1,11 +1,12 @@
 #define GLFW_INCLUDE_NONE
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
 #include <iostream>
 #include <sstream>
 
 #include "Renderer.h"
+
+void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 
 enum Command {
   add_shape, remove_shape, add_light, remove_light,
@@ -14,8 +15,6 @@ enum Command {
   save, axis_on, axis_off, lights_on, lights_off,
   wire_on, wire_off, quit
 };
-
-void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 
 int main(void)
 {
@@ -60,8 +59,6 @@ int main(void)
   }
 
   glfwMakeContextCurrent(window);
-  glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
-  //=== Incluir funções de callback aqui ===//
 
   if(glewInit() != GLEW_OK)
     std::cout << "Error!" << std::endl;
@@ -207,9 +204,4 @@ int main(void)
   glfwDestroyWindow(window);
   glfwTerminate();
   return 0;
-}
-
-void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
-{
-  glViewport(0, 0, width, height);
 }

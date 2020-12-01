@@ -19,7 +19,6 @@ class Shader
   std::string LoadShaderSource(const std::string &filename);
   unsigned int LoadAndCompileShader(GLenum type, const std::string &filename);
   void LinkShaderProgram(unsigned int vertex_shader, unsigned int fragment_shader);
-
   int GetUniformLocation(const std::string& name);
 
  public:
@@ -29,7 +28,7 @@ class Shader
   void Bind();
   void Unbind();
 
-  // Uniform functions
+  // Funções p/ uniforms
   void SetUniform1i(const std::string& name, int v0);
   void SetUniform1f(const std::string& name, float v0);
   void SetUniform3f(const std::string& name, float v0, float v1,
