@@ -1,5 +1,11 @@
 CXX = g++
-CXXFLAGS = -std=c++14 -lGLEW -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl
+CXXFLAGS = -std=c++14
+
+ifeq ($(OS), Windows_NT)
+	CXXFLAGS += -lglew32 -lfreeglut -lglu32 -lopengl32
+else
+	CXXFLAGS += -lGLEW -lGL -lGLU -lglut
+endif
 
 BIN := Main
 OBJ_DIR = build
