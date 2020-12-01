@@ -1,10 +1,12 @@
 #version 330 core
 #define NUM_LIGHTS 10
-
-out vec4 fragment_color;
+#define A0 1.0
+#define A1 1.0
+#define A2 0.25
 
 in vec3 fragment_position;
 in vec3 normal;
+out vec4 fragment_color;
 
 uniform vec3 lights_positions[NUM_LIGHTS];
 uniform int num_lights;
@@ -36,7 +38,7 @@ float CalcPointLight(vec3 light_pos, vec3 frag_pos, vec3 normal, vec3 view_dir)
 {
   // Intensidade da Luz
   float distancia = length(light_pos - frag_pos);
-  float light_intensity = 1.0 / (1.0 + 1.0 * distancia + 0.25 * (distancia * distancia));
+  float light_intensity = 1.0 / (A0 + A1 * distancia + A2 * (distancia * distancia));
 
   // Difusa
   vec3 light_direction = normalize(light_pos - frag_pos);

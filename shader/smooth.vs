@@ -1,5 +1,8 @@
 #version 330 core
 #define NUM_LIGHTS 10
+#define A0 1.0
+#define A1 1.0
+#define A2 0.25
 
 layout (location = 0) in vec3 vertex_position;
 layout (location = 1) in vec3 vertex_normal;
@@ -28,8 +31,7 @@ void main()
   float result = 0.0;
 
   for (int i = 0; i < num_lights; ++i)
-    result += CalcPointLight(lights_positions[i], fragment_position,
-            normal, view_direction);
+    result += CalcPointLight(lights_positions[i], fragment_position, normal, view_direction);
 
   // Ambiente
   result += k_ambient;
@@ -42,7 +44,7 @@ float CalcPointLight(vec3 light_pos, vec3 frag_pos, vec3 normal, vec3 view_dir)
 {
   // Intensidade da luz
   float distance = length(light_pos - frag_pos);
-  float light_intensity = 1.0 / (1.0 + 1.0 * distance + 0.25 * (distance * distance));
+  float light_intensity = 1.0 / (A0 + A1 * distance + A2 * (distance * distance));
 
   // Difusa
   vec3 light_direction = normalize(light_pos - frag_pos);
